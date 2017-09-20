@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'AHDataModel_Example' do
+  pod 'AHDataModel', :path => '../'
+
+  target 'AHDataModel_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
