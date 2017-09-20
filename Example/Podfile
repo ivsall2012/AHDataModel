@@ -3,7 +3,7 @@ use_frameworks!
 target 'AHDataModel_Example' do
   pod 'AHDataModel', :path => '../'
 
-  target 'AHDataModel_Tests' do
+  target 'AHDataModel_ExampleTests' do
     inherit! :search_paths
 
     

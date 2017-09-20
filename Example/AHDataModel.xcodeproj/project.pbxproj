@@ -13,23 +13,27 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
-		F5678DA4D1CEC4493DE425F2 /* Pods_AHDataModel_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F985080271DF6A1ED385F487 /* Pods_AHDataModel_Tests.framework */; };
+		A1AFBD521F725C93002F5D43 /* AHDataModel_ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD511F725C93002F5D43 /* AHDataModel_ExampleTests.swift */; };
+		A1AFBD591F725CC2002F5D43 /* DogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD421F725562002F5D43 /* DogModel.swift */; };
+		A1AFBD5A1F725CC2002F5D43 /* Master.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD431F725562002F5D43 /* Master.swift */; };
+		A1AFBD5B1F725CC2002F5D43 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD441F725562002F5D43 /* UserModel.swift */; };
+		B305F10691012E56141015E9 /* Pods_AHDataModel_ExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75BF6E87502D1EA40150154E /* Pods_AHDataModel_ExampleTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
+		A1AFBD541F725C93002F5D43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
-			remoteInfo = AHDataModel;
+			remoteInfo = AHDataModel_Example;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		279200A8A153E1E2E799ED02 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		54456F9606AD0857AD63C5F5 /* AHDataModel.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = AHDataModel.podspec; path = ../AHDataModel.podspec; sourceTree = "<group>"; };
+		279200A8A153E1E2E799ED02 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		54456F9606AD0857AD63C5F5 /* AHDataModel.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = AHDataModel.podspec; path = ../AHDataModel.podspec; sourceTree = "<group>"; };
+		5D311F507B233CFACCE3E37D /* Pods-AHDataModel_ExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHDataModel_ExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AHDataModel_ExampleTests/Pods-AHDataModel_ExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* AHDataModel_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AHDataModel_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,15 +41,22 @@
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* AHDataModel_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AHDataModel_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		6A12A19BB1811DFF6EEBAE20 /* Pods-AHDataModel_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHDataModel_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AHDataModel_Tests/Pods-AHDataModel_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		71E545070EFA7BD7E6CE9D59 /* Pods-AHDataModel_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHDataModel_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AHDataModel_Tests/Pods-AHDataModel_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		75BF6E87502D1EA40150154E /* Pods_AHDataModel_ExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHDataModel_ExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1AFBD421F725562002F5D43 /* DogModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DogModel.swift; path = ../Tests/DogModel.swift; sourceTree = "<group>"; };
+		A1AFBD431F725562002F5D43 /* Master.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Master.swift; path = ../Tests/Master.swift; sourceTree = "<group>"; };
+		A1AFBD441F725562002F5D43 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserModel.swift; path = ../Tests/UserModel.swift; sourceTree = "<group>"; };
+		A1AFBD4F1F725C93002F5D43 /* AHDataModel_ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AHDataModel_ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1AFBD511F725C93002F5D43 /* AHDataModel_ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AHDataModel_ExampleTests.swift; sourceTree = "<group>"; };
+		A1AFBD531F725C93002F5D43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A279647DA0DEF0A8BF5AD60F /* Pods-AHDataModel_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHDataModel_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AHDataModel_Example/Pods-AHDataModel_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A2BB8A65EF83D6F8651B017E /* Pods_AHDataModel_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHDataModel_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39FF43C8799D2E88689E499 /* Pods-AHDataModel_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHDataModel_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-AHDataModel_Example/Pods-AHDataModel_Example.release.xcconfig"; sourceTree = "<group>"; };
-		E57C9BAEAADE0E2AC8B4DED5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		E57C9BAEAADE0E2AC8B4DED5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		ECFD4EF892E26267A815CC5F /* Pods-AHDataModel_ExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHDataModel_ExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AHDataModel_ExampleTests/Pods-AHDataModel_ExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F985080271DF6A1ED385F487 /* Pods_AHDataModel_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHDataModel_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -58,11 +69,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE21AFB9204008FA782 /* Frameworks */ = {
+		A1AFBD4C1F725C93002F5D43 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5678DA4D1CEC4493DE425F2 /* Pods_AHDataModel_Tests.framework in Frameworks */,
+				B305F10691012E56141015E9 /* Pods_AHDataModel_ExampleTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +85,7 @@
 			children = (
 				A2BB8A65EF83D6F8651B017E /* Pods_AHDataModel_Example.framework */,
 				F985080271DF6A1ED385F487 /* Pods_AHDataModel_Tests.framework */,
+				75BF6E87502D1EA40150154E /* Pods_AHDataModel_ExampleTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -85,6 +97,8 @@
 				E39FF43C8799D2E88689E499 /* Pods-AHDataModel_Example.release.xcconfig */,
 				6A12A19BB1811DFF6EEBAE20 /* Pods-AHDataModel_Tests.debug.xcconfig */,
 				71E545070EFA7BD7E6CE9D59 /* Pods-AHDataModel_Tests.release.xcconfig */,
+				ECFD4EF892E26267A815CC5F /* Pods-AHDataModel_ExampleTests.debug.xcconfig */,
+				5D311F507B233CFACCE3E37D /* Pods-AHDataModel_ExampleTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -95,6 +109,7 @@
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for AHDataModel */,
 				607FACE81AFB9204008FA782 /* Tests */,
+				A1AFBD501F725C93002F5D43 /* AHDataModel_ExampleTests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				31A8387C8E0CE95FA58483FD /* Pods */,
 				2A5B275134484B7A3045DE3F /* Frameworks */,
@@ -105,7 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD01AFB9204008FA782 /* AHDataModel_Example.app */,
-				607FACE51AFB9204008FA782 /* AHDataModel_Tests.xctest */,
+				A1AFBD4F1F725C93002F5D43 /* AHDataModel_ExampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,6 +174,18 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		A1AFBD501F725C93002F5D43 /* AHDataModel_ExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				A1AFBD421F725562002F5D43 /* DogModel.swift */,
+				A1AFBD431F725562002F5D43 /* Master.swift */,
+				A1AFBD441F725562002F5D43 /* UserModel.swift */,
+				A1AFBD511F725C93002F5D43 /* AHDataModel_ExampleTests.swift */,
+				A1AFBD531F725C93002F5D43 /* Info.plist */,
+			);
+			path = AHDataModel_ExampleTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -182,25 +209,25 @@
 			productReference = 607FACD01AFB9204008FA782 /* AHDataModel_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		607FACE41AFB9204008FA782 /* AHDataModel_Tests */ = {
+		A1AFBD4E1F725C93002F5D43 /* AHDataModel_ExampleTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "AHDataModel_Tests" */;
+			buildConfigurationList = A1AFBD581F725C93002F5D43 /* Build configuration list for PBXNativeTarget "AHDataModel_ExampleTests" */;
 			buildPhases = (
-				430D31E7349353740769C66A /* [CP] Check Pods Manifest.lock */,
-				607FACE11AFB9204008FA782 /* Sources */,
-				607FACE21AFB9204008FA782 /* Frameworks */,
-				607FACE31AFB9204008FA782 /* Resources */,
-				F60916778289344AC3F178DD /* [CP] Embed Pods Frameworks */,
-				A904C2DABD59120640E7C402 /* [CP] Copy Pods Resources */,
+				FE7EF8A29CF96F8604018BAE /* [CP] Check Pods Manifest.lock */,
+				A1AFBD4B1F725C93002F5D43 /* Sources */,
+				A1AFBD4C1F725C93002F5D43 /* Frameworks */,
+				A1AFBD4D1F725C93002F5D43 /* Resources */,
+				64EE31F9D6F463CE323AF8FC /* [CP] Embed Pods Frameworks */,
+				1E40B9DD913AF204425300F8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
+				A1AFBD551F725C93002F5D43 /* PBXTargetDependency */,
 			);
-			name = AHDataModel_Tests;
-			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* AHDataModel_Tests.xctest */;
+			name = AHDataModel_ExampleTests;
+			productName = AHDataModel_ExampleTests;
+			productReference = A1AFBD4F1F725C93002F5D43 /* AHDataModel_ExampleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -209,7 +236,7 @@
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
@@ -217,9 +244,10 @@
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 0820;
 					};
-					607FACE41AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0820;
+					A1AFBD4E1F725C93002F5D43 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = MVFF28UQZP;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
 				};
@@ -238,7 +266,7 @@
 			projectRoot = "";
 			targets = (
 				607FACCF1AFB9204008FA782 /* AHDataModel_Example */,
-				607FACE41AFB9204008FA782 /* AHDataModel_Tests */,
+				A1AFBD4E1F725C93002F5D43 /* AHDataModel_ExampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -254,7 +282,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE31AFB9204008FA782 /* Resources */ = {
+		A1AFBD4D1F725C93002F5D43 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -264,22 +292,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		430D31E7349353740769C66A /* [CP] Check Pods Manifest.lock */ = {
+		1E40B9DD913AF204425300F8 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AHDataModel_Tests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AHDataModel_ExampleTests/Pods-AHDataModel_ExampleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		64EE31F9D6F463CE323AF8FC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AHDataModel_ExampleTests/Pods-AHDataModel_ExampleTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A50F398001DB253C4BB6DDC6 /* [CP] Embed Pods Frameworks */ = {
@@ -298,21 +338,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AHDataModel_Example/Pods-AHDataModel_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A904C2DABD59120640E7C402 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AHDataModel_Tests/Pods-AHDataModel_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B579A8CE07733264A6E2C65E /* [CP] Check Pods Manifest.lock */ = {
@@ -348,19 +373,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AHDataModel_Example/Pods-AHDataModel_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F60916778289344AC3F178DD /* [CP] Embed Pods Frameworks */ = {
+		FE7EF8A29CF96F8604018BAE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AHDataModel_ExampleTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AHDataModel_Tests/Pods-AHDataModel_Tests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -375,21 +403,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE11AFB9204008FA782 /* Sources */ = {
+		A1AFBD4B1F725C93002F5D43 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				A1AFBD5A1F725CC2002F5D43 /* Master.swift in Sources */,
+				A1AFBD591F725CC2002F5D43 /* DogModel.swift in Sources */,
+				A1AFBD5B1F725CC2002F5D43 /* UserModel.swift in Sources */,
+				A1AFBD521F725C93002F5D43 /* AHDataModel_ExampleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
+		A1AFBD551F725C93002F5D43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* AHDataModel_Example */;
-			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
+			targetProxy = A1AFBD541F725C93002F5D43 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -528,39 +559,43 @@
 			};
 			name = Release;
 		};
-		607FACF31AFB9204008FA782 /* Debug */ = {
+		A1AFBD561F725C93002F5D43 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6A12A19BB1811DFF6EEBAE20 /* Pods-AHDataModel_Tests.debug.xcconfig */;
+			baseConfigurationReference = ECFD4EF892E26267A815CC5F /* Pods-AHDataModel_ExampleTests.debug.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = MVFF28UQZP;
+				INFOPLIST_FILE = AHDataModel_ExampleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.AndyHurricane.ios.AHDataModel-ExampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AHDataModel_Example.app/AHDataModel_Example";
 			};
 			name = Debug;
 		};
-		607FACF41AFB9204008FA782 /* Release */ = {
+		A1AFBD571F725C93002F5D43 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71E545070EFA7BD7E6CE9D59 /* Pods-AHDataModel_Tests.release.xcconfig */;
+			baseConfigurationReference = 5D311F507B233CFACCE3E37D /* Pods-AHDataModel_ExampleTests.release.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = MVFF28UQZP;
+				INFOPLIST_FILE = AHDataModel_ExampleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.AndyHurricane.ios.AHDataModel-ExampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AHDataModel_Example.app/AHDataModel_Example";
 			};
 			name = Release;
 		};
@@ -585,14 +620,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "AHDataModel_Tests" */ = {
+		A1AFBD581F725C93002F5D43 /* Build configuration list for PBXNativeTarget "AHDataModel_ExampleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				607FACF31AFB9204008FA782 /* Debug */,
-				607FACF41AFB9204008FA782 /* Release */,
+				A1AFBD561F725C93002F5D43 /* Debug */,
+				A1AFBD571F725C93002F5D43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

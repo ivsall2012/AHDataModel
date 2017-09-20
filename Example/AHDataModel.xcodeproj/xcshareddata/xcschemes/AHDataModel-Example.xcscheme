@@ -52,6 +52,16 @@
                ReferencedContainer = "container:AHDataModel.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A1AFBD4E1F725C93002F5D43"
+               BuildableName = "AHDataModel_ExampleTests.xctest"
+               BlueprintName = "AHDataModel_ExampleTests"
+               ReferencedContainer = "container:AHDataModel.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

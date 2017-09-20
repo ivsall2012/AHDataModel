@@ -1,0 +1,16 @@
+PODS:
+  - AHDataModel (0.1.0)
+
+DEPENDENCIES:
+  - AHDataModel (from `../`)
+
+EXTERNAL SOURCES:
+  AHDataModel:
+    :path: ../
+
+SPEC CHECKSUMS:
+  AHDataModel: 5ce82adb4c0dde85536d715fe46983cd2697e501
+
+PODFILE CHECKSUM: ebe5c50c1d510652e5b466981d79d731ffc0158f
+
+COCOAPODS: 1.3.0.beta.2

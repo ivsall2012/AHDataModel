@@ -1,0 +1,6 @@
+framework module Pods_AHDataModel_ExampleTests {
+  umbrella header "Pods-AHDataModel_ExampleTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
