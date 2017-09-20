@@ -30,7 +30,7 @@ s.source           = { :git => 'https://github.com/ivsall2012/AHDataModel.git', 
 
 s.ios.deployment_target = '8.0'
 
-s.source_files = 'AHDataModel/Classes/**/*'
+s.source_files = 'AHDataModel/Classes/**/*', 'ModuleMaps/**/*'
 
 s.library = 'sqlite3'
 

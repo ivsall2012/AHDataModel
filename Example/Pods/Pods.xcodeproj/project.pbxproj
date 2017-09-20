@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D1BDFB177E71C87386190DEFD456400 /* AHDataModel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E984653A37975FED0DC5DA3A2AC0699F /* AHDataModel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		16DCDB5538EA14AAB10F54088293531B /* AHDataModel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BFFB6E51985D54D87656BFFF09FB09 /* AHDataModel-dummy.m */; };
+		1B14C73992CB60F90CDDA653FF4E1929 /* module.modulemap in Sources */ = {isa = PBXBuildFile; fileRef = 721B3B7EA9C97DBFB26364A3F8D8DA03 /* module.modulemap */; };
+		2900881D5E5AF3047BD2213C098A5F54 /* AHDataModel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A5CD0EE4D2889E0B7349DA0189B35A3 /* AHDataModel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B714C8BE986FA7EA5456368BB898EB9 /* AHDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBAE36E9D8D2E486F21AA55D76F39D2 /* AHDataModel.swift */; };
 		2B8CE73D07BCF5800FD1FF4EF40B8DCB /* Pods-AHDataModel_ExampleTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B08E64F3B67E657C7ACECEDD5D7BF41A /* Pods-AHDataModel_ExampleTests-dummy.m */; };
-		454EB9141F05FED82A3543DD4CEC1D96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
-		65E137B077DE5ED9909626400FC0A448 /* AHDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A57E1FD5DB48113B26CC8B16574A489 /* AHDatabase.swift */; };
-		6F8BB5C3F5A3ADBCA67A12D1FFFBB8A9 /* AHDataModel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 99459DDE2853C39B903283C6A2E57421 /* AHDataModel-dummy.m */; };
+		76CE8E82DF1ECACBF84B2884150EDE24 /* AHDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47C1BEC15F5F35775D8C6B3B35C6D04 /* AHDatabase.swift */; };
 		8F6DE813AE9007EB70C9207DE5CFC383 /* Pods-AHDataModel_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 632578A7E7B0C9413768CA5DF7FCAED1 /* Pods-AHDataModel_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		900C5A7B32210B7BB138D0886DE92E32 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		A3153E62FC315A1CE03C812E8B69902D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
-		CE32FDFDC6120D694227B93F43478A6A /* AHDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9AA6D8078000AD24CF0D2887032403 /* AHDataModel.swift */; };
+		E78431A4C256A63FCEFC589C9902D784 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		EA77E4BC7F1B3DCE1799DF92FC267933 /* Pods-AHDataModel_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 056E220128BFA69F9CEC39081FAEC431 /* Pods-AHDataModel_Example-dummy.m */; };
 		F8D8B609D0D4F55ED12C9E276094D389 /* Pods-AHDataModel_ExampleTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CBAD38DA1A7992B637D7E813FD6DF7F /* Pods-AHDataModel_ExampleTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -25,7 +26,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 4186FD8ECA9FCC75A8B8317113D601E7;
+			remoteGlobalIDString = 50D7737AE2D9C2BD9A2DE277522C2B63;
 			remoteInfo = AHDataModel;
 		};
 /* End PBXContainerItemProxy section */
@@ -37,33 +38,35 @@
 		1DD0758D8F5185FD949A3C6D96676C49 /* Pods-AHDataModel_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AHDataModel_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		232FA85067C27B6F3D11344B423C7F79 /* Pods-AHDataModel_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AHDataModel_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		28F3A58FF5D6D8B7FF2E3DD1A3325929 /* Pods-AHDataModel_ExampleTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AHDataModel_ExampleTests-frameworks.sh"; sourceTree = "<group>"; };
+		2FBAE36E9D8D2E486F21AA55D76F39D2 /* AHDataModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AHDataModel.swift; sourceTree = "<group>"; };
 		3263CE57146674F2240EB3D93FE28D75 /* Pods-AHDataModel_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AHDataModel_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		32FB5B2DCC413CC9B7DFBE6EBB52C535 /* Pods_AHDataModel_ExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AHDataModel_ExampleTests.framework; path = "Pods-AHDataModel_ExampleTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		367DAA58448DAEDC5AE88CBD21ACBC2E /* Pods-AHDataModel_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AHDataModel_Example.release.xcconfig"; sourceTree = "<group>"; };
-		3A53ED23AC67396D7F6EC4E354E10389 /* AHDataModel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = AHDataModel.modulemap; sourceTree = "<group>"; };
+		3E119A9658FCFD35A73BAF0011E1367B /* module.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = module.modulemap; sourceTree = "<group>"; };
 		437A68E4D609DD9D7074893A48D92109 /* Pods-AHDataModel_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-AHDataModel_Example.modulemap"; sourceTree = "<group>"; };
+		4A5CD0EE4D2889E0B7349DA0189B35A3 /* AHDataModel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AHDataModel-umbrella.h"; sourceTree = "<group>"; };
 		5AD0A3779DAD0300707A16F1A2D362D0 /* Pods_AHDataModel_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AHDataModel_Example.framework; path = "Pods-AHDataModel_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		632578A7E7B0C9413768CA5DF7FCAED1 /* Pods-AHDataModel_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AHDataModel_Example-umbrella.h"; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		6A57E1FD5DB48113B26CC8B16574A489 /* AHDatabase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AHDatabase.swift; sourceTree = "<group>"; };
+		6C6307002F52C8E56CEBDC87938107A2 /* AHDataModel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = AHDataModel.modulemap; sourceTree = "<group>"; };
 		6CBAD38DA1A7992B637D7E813FD6DF7F /* Pods-AHDataModel_ExampleTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AHDataModel_ExampleTests-umbrella.h"; sourceTree = "<group>"; };
+		721B3B7EA9C97DBFB26364A3F8D8DA03 /* module.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = module.modulemap; sourceTree = "<group>"; };
+		7AC41044BC4AED6D247E78403002E8A6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E7CC96637F9D1BC7C87E9F638B6E020 /* Pods-AHDataModel_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AHDataModel_Example-frameworks.sh"; sourceTree = "<group>"; };
 		84CCFFD300D82A381528DC4C193D314C /* Pods-AHDataModel_ExampleTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AHDataModel_ExampleTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		99459DDE2853C39B903283C6A2E57421 /* AHDataModel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AHDataModel-dummy.m"; sourceTree = "<group>"; };
+		A6BFFB6E51985D54D87656BFFF09FB09 /* AHDataModel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AHDataModel-dummy.m"; sourceTree = "<group>"; };
 		A92ABF9D6476E3368CAE5237FE48BF4E /* Pods-AHDataModel_ExampleTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AHDataModel_ExampleTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		AFE5B9406BCD5EC96F4F873D9F4C7BA2 /* Pods-AHDataModel_ExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AHDataModel_ExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B08E64F3B67E657C7ACECEDD5D7BF41A /* Pods-AHDataModel_ExampleTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AHDataModel_ExampleTests-dummy.m"; sourceTree = "<group>"; };
 		BB1F68E27BCC48F372DE9FACB12E4874 /* Pods-AHDataModel_ExampleTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AHDataModel_ExampleTests-resources.sh"; sourceTree = "<group>"; };
-		BB9AA6D8078000AD24CF0D2887032403 /* AHDataModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AHDataModel.swift; sourceTree = "<group>"; };
+		BE0E33FF23BF2BFAF31CE500A34095F7 /* AHDataModel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AHDataModel-prefix.pch"; sourceTree = "<group>"; };
 		C1F5EBC20631D83ECB39C84F380E3C60 /* AHDataModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AHDataModel.framework; path = AHDataModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA2D5E2CA3F80BF08BD9BFC721EB7880 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE6E785D5D2D1203E8C44F7935103B85 /* AHDataModel.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AHDataModel.xcconfig; sourceTree = "<group>"; };
+		D47C1BEC15F5F35775D8C6B3B35C6D04 /* AHDatabase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AHDatabase.swift; sourceTree = "<group>"; };
 		D52B93EF9240ACB939AD9E9065B6E769 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8917DDBAEDCD12A0DE33BF564EB173A /* Pods-AHDataModel_ExampleTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-AHDataModel_ExampleTests.modulemap"; sourceTree = "<group>"; };
-		DAF71DADFE2D8F9F3190BDE6C52C363A /* AHDataModel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AHDataModel-prefix.pch"; sourceTree = "<group>"; };
 		DE81635D59C75FBAE3EBCA6B439F5D57 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E984653A37975FED0DC5DA3A2AC0699F /* AHDataModel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AHDataModel-umbrella.h"; sourceTree = "<group>"; };
-		FC3ECC3A014C7E51BC23A0FC8A6EA7F9 /* AHDataModel.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AHDataModel.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,14 +78,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A13E45EFD9A9C6DF6DB5C769604FF45 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				454EB9141F05FED82A3543DD4CEC1D96 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EA4EA179BB459C5B8C643E3C657B2347 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -91,47 +86,56 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EE06B0E19A5FEB6E08893603D6565C1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E78431A4C256A63FCEFC589C9902D784 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1ECE238BF679B94F7F78A5A1D352BF55 /* AHDataModel */ = {
+		03A57F94E0EC1652595794920D40CF02 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				C211AB651CE07660021199C9837B42FF /* Classes */,
-			);
-			name = AHDataModel;
-			path = AHDataModel;
-			sourceTree = "<group>";
-		};
-		22AE550D3F120F3C166EEA6067592FE0 /* AHDataModel */ = {
-			isa = PBXGroup;
-			children = (
-				1ECE238BF679B94F7F78A5A1D352BF55 /* AHDataModel */,
-				408E196735F0E2D6D542AA6D540E5403 /* Support Files */,
-			);
-			name = AHDataModel;
-			path = ../..;
-			sourceTree = "<group>";
-		};
-		408E196735F0E2D6D542AA6D540E5403 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				3A53ED23AC67396D7F6EC4E354E10389 /* AHDataModel.modulemap */,
-				FC3ECC3A014C7E51BC23A0FC8A6EA7F9 /* AHDataModel.xcconfig */,
-				99459DDE2853C39B903283C6A2E57421 /* AHDataModel-dummy.m */,
-				DAF71DADFE2D8F9F3190BDE6C52C363A /* AHDataModel-prefix.pch */,
-				E984653A37975FED0DC5DA3A2AC0699F /* AHDataModel-umbrella.h */,
-				CA2D5E2CA3F80BF08BD9BFC721EB7880 /* Info.plist */,
+				6C6307002F52C8E56CEBDC87938107A2 /* AHDataModel.modulemap */,
+				CE6E785D5D2D1203E8C44F7935103B85 /* AHDataModel.xcconfig */,
+				A6BFFB6E51985D54D87656BFFF09FB09 /* AHDataModel-dummy.m */,
+				BE0E33FF23BF2BFAF31CE500A34095F7 /* AHDataModel-prefix.pch */,
+				4A5CD0EE4D2889E0B7349DA0189B35A3 /* AHDataModel-umbrella.h */,
+				7AC41044BC4AED6D247E78403002E8A6 /* Info.plist */,
 			);
 			name = "Support Files";
 			path = "Example/Pods/Target Support Files/AHDataModel";
+			sourceTree = "<group>";
+		};
+		1523FF7A12AF753D8F192BFFA11457D5 /* iphoneos */ = {
+			isa = PBXGroup;
+			children = (
+				3E119A9658FCFD35A73BAF0011E1367B /* module.modulemap */,
+			);
+			name = iphoneos;
+			path = iphoneos;
+			sourceTree = "<group>";
+		};
+		5FE5D10DD8609CB29A9742F88689D66F /* AHDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				E149674BF28A6C8FE8EAACD3C3B53F61 /* AHDataModel */,
+				C7BF4DE2E3EDB9D7B906A8EE3AC24BD9 /* ModuleMaps */,
+				03A57F94E0EC1652595794920D40CF02 /* Support Files */,
+			);
+			name = AHDataModel;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				F90648B6BCA397CBF6E2FAE226A0488E /* Development Pods */,
+				ECF9C88071D4AC5C0A22D2DC9746FC57 /* Development Pods */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
 				EEEABCF79994C2F11A0F12BAD5C86E1B /* Products */,
 				8B03CC3F3BA2526C6A4724E001ECB841 /* Targets Support Files */,
@@ -165,6 +169,25 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		982BFEDD91EC66E9CA5D518B4451128F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				D47C1BEC15F5F35775D8C6B3B35C6D04 /* AHDatabase.swift */,
+				2FBAE36E9D8D2E486F21AA55D76F39D2 /* AHDataModel.swift */,
+			);
+			name = Classes;
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		B0E22A179D3F9A31ECE804E1310B0968 /* iphonesimulator */ = {
+			isa = PBXGroup;
+			children = (
+				721B3B7EA9C97DBFB26364A3F8D8DA03 /* module.modulemap */,
+			);
+			name = iphonesimulator;
+			path = iphonesimulator;
+			sourceTree = "<group>";
+		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,14 +196,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C211AB651CE07660021199C9837B42FF /* Classes */ = {
+		C7BF4DE2E3EDB9D7B906A8EE3AC24BD9 /* ModuleMaps */ = {
 			isa = PBXGroup;
 			children = (
-				6A57E1FD5DB48113B26CC8B16574A489 /* AHDatabase.swift */,
-				BB9AA6D8078000AD24CF0D2887032403 /* AHDataModel.swift */,
+				1523FF7A12AF753D8F192BFFA11457D5 /* iphoneos */,
+				B0E22A179D3F9A31ECE804E1310B0968 /* iphonesimulator */,
 			);
-			name = Classes;
-			path = Classes;
+			name = ModuleMaps;
+			path = ModuleMaps;
 			sourceTree = "<group>";
 		};
 		CFD4A481D05FDC74179F7E984DE1A20D /* Pods-AHDataModel_Example */ = {
@@ -209,6 +232,23 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		E149674BF28A6C8FE8EAACD3C3B53F61 /* AHDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				982BFEDD91EC66E9CA5D518B4451128F /* Classes */,
+			);
+			name = AHDataModel;
+			path = AHDataModel;
+			sourceTree = "<group>";
+		};
+		ECF9C88071D4AC5C0A22D2DC9746FC57 /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5FE5D10DD8609CB29A9742F88689D66F /* AHDataModel */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
 		EEEABCF79994C2F11A0F12BAD5C86E1B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -217,14 +257,6 @@
 				32FB5B2DCC413CC9B7DFBE6EBB52C535 /* Pods_AHDataModel_ExampleTests.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		F90648B6BCA397CBF6E2FAE226A0488E /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				22AE550D3F120F3C166EEA6067592FE0 /* AHDataModel */,
-			);
-			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,14 +270,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4D135BADBD1D04574832905E2EAE9B2F /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0D1BDFB177E71C87386190DEFD456400 /* AHDataModel-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9AF1A739BAD11D86DDB5DE68F9DE4986 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -254,16 +278,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C331CD3BF5212756F5F39B9CCE3A5B44 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2900881D5E5AF3047BD2213C098A5F54 /* AHDataModel-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4186FD8ECA9FCC75A8B8317113D601E7 /* AHDataModel */ = {
+		50D7737AE2D9C2BD9A2DE277522C2B63 /* AHDataModel */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 122E5FE35B5DE52799BF88B13D1362D4 /* Build configuration list for PBXNativeTarget "AHDataModel" */;
+			buildConfigurationList = CDB2CB5CC793413D32DA0E992A08BB69 /* Build configuration list for PBXNativeTarget "AHDataModel" */;
 			buildPhases = (
-				E2E738BF70F283F266603624236366F7 /* Sources */,
-				6A13E45EFD9A9C6DF6DB5C769604FF45 /* Frameworks */,
-				4D135BADBD1D04574832905E2EAE9B2F /* Headers */,
+				43E457BA28AD314711308EDE22A05C94 /* Sources */,
+				EE06B0E19A5FEB6E08893603D6565C1E /* Frameworks */,
+				C331CD3BF5212756F5F39B9CCE3A5B44 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -330,7 +362,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4186FD8ECA9FCC75A8B8317113D601E7 /* AHDataModel */,
+				50D7737AE2D9C2BD9A2DE277522C2B63 /* AHDataModel */,
 				B75B59E94B27A6612922EB4B0A45BCA8 /* Pods-AHDataModel_Example */,
 				B98D4C8652487B73D4DBD30977115E0B /* Pods-AHDataModel_ExampleTests */,
 			);
@@ -338,6 +370,18 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		43E457BA28AD314711308EDE22A05C94 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76CE8E82DF1ECACBF84B2884150EDE24 /* AHDatabase.swift in Sources */,
+				16DCDB5538EA14AAB10F54088293531B /* AHDataModel-dummy.m in Sources */,
+				2B714C8BE986FA7EA5456368BB898EB9 /* AHDataModel.swift in Sources */,
+				1B14C73992CB60F90CDDA653FF4E1929 /* module.modulemap in Sources */,
+				1B14C73992CB60F90CDDA653FF4E1929 /* module.modulemap in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		506C489093B758CD3A5FEF6E89E5C315 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,98 +398,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E2E738BF70F283F266603624236366F7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				65E137B077DE5ED9909626400FC0A448 /* AHDatabase.swift in Sources */,
-				6F8BB5C3F5A3ADBCA67A12D1FFFBB8A9 /* AHDataModel-dummy.m in Sources */,
-				CE32FDFDC6120D694227B93F43478A6A /* AHDataModel.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		970EDDDF5139BFA7AA98463732C9E32B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AHDataModel;
-			target = 4186FD8ECA9FCC75A8B8317113D601E7 /* AHDataModel */;
+			target = 50D7737AE2D9C2BD9A2DE277522C2B63 /* AHDataModel */;
 			targetProxy = A6547AA8218DBC7EF3F0E4321EDE9C3D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		206FF6078B1A6932CCEE72C680C99C5B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC3ECC3A014C7E51BC23A0FC8A6EA7F9 /* AHDataModel.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/AHDataModel/AHDataModel-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/AHDataModel/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/AHDataModel/AHDataModel.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = AHDataModel;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		41833ECA2DDD031B4CA14366F4C0BDC5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC3ECC3A014C7E51BC23A0FC8A6EA7F9 /* AHDataModel.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/AHDataModel/AHDataModel-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/AHDataModel/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/AHDataModel/AHDataModel.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = AHDataModel;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		427E527DB55B3DCEEE0C42497956386B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1DD0758D8F5185FD949A3C6D96676C49 /* Pods-AHDataModel_Example.debug.xcconfig */;
@@ -688,18 +652,79 @@
 			};
 			name = Debug;
 		};
+		A7A3BC6467B736FD6DC72F558AF2538D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE6E785D5D2D1203E8C44F7935103B85 /* AHDataModel.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AHDataModel/AHDataModel-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AHDataModel/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/AHDataModel/AHDataModel.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = AHDataModel;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		CCB109592BD229904778FE95BD48EBDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE6E785D5D2D1203E8C44F7935103B85 /* AHDataModel.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AHDataModel/AHDataModel-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AHDataModel/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/AHDataModel/AHDataModel.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = AHDataModel;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		122E5FE35B5DE52799BF88B13D1362D4 /* Build configuration list for PBXNativeTarget "AHDataModel" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				206FF6078B1A6932CCEE72C680C99C5B /* Debug */,
-				41833ECA2DDD031B4CA14366F4C0BDC5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -723,6 +748,15 @@
 			buildConfigurations = (
 				427E527DB55B3DCEEE0C42497956386B /* Debug */,
 				4CB1885A02F509FC66F982AE457D7829 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CDB2CB5CC793413D32DA0E992A08BB69 /* Build configuration list for PBXNativeTarget "AHDataModel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCB109592BD229904778FE95BD48EBDA /* Debug */,
+				A7A3BC6467B736FD6DC72F558AF2538D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

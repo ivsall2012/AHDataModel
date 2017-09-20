@@ -18,7 +18,10 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "AHDataModel/Classes/**/*",
+  "source_files": [
+    "AHDataModel/Classes/**/*",
+    "ModuleMaps/**/*"
+  ],
   "libraries": "sqlite3",
   "pod_target_xcconfig": {
     "SWIFT_INCLUDE_PATHS[sdk=iphoneos*]": "$(PODS_TARGET_SRCROOT)/ModuleMaps/iphoneos",
