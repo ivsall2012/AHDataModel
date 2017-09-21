@@ -60,20 +60,21 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssertEqual(masters.count, 8)
         
         // 3 nil ages being skipped!
-        masters = Master.query(byFilters: ("age", "IS NOT", nil)).run()
+        
+        masters = Master.query("age", "IS NOT", nil).run()
         XCTAssertEqual(masters.count, 5)
         
-        masters = Master.query(byFilters: ("age", "IS", nil)).run()
+        masters = Master.query("age", "IS", nil).run()
         XCTAssertEqual(masters.count, 3)
         
-        masters = Master.query(byFilters: ("name", "IS", nil)).run()
+        masters = Master.query("name", "IS", nil).run()
         XCTAssertEqual(masters.count, 3)
         
-        masters = Master.query(byFilters: ("age", "IN", [33,66,88])).run()
+        masters = Master.query("age", "IN", [33,66,88]).run()
         XCTAssertEqual(masters.count, 3)
         
         // 3 nil ages being skipped!
-        masters = Master.query(byFilters: ("age", "NOT IN", [33,66,88])).run()
+        masters = Master.query("age", "NOT IN", [33,66,88]).run()
         XCTAssertEqual(masters.count, 2)
         
         // below causes fatalError
@@ -82,13 +83,13 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         
         // Testing 'Limit'
-        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(2).run()
+        masters = Master.queryAll().OrderBy("id", isASC: false).Limit(2).run()
         XCTAssertEqual(masters.count, 2)
         XCTAssertEqual(masters[0].id, 8)
         XCTAssertEqual(masters[1].id, 7)
         
         
-        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(3, offset: 2).run()
+        masters = Master.queryAll().OrderBy("id", isASC: false).Limit(3, offset: 2).run()
         XCTAssertEqual(masters.count, 3)
         XCTAssertEqual(masters[0].id, 6)
         XCTAssertEqual(masters[1].id, 5)
@@ -96,19 +97,19 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         
         
-        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(2, offset: 6).run()
+        masters = Master.queryAll().OrderBy("id", isASC: false).Limit(2, offset: 6).run()
         XCTAssertEqual(masters.count, 2)
         XCTAssertEqual(masters[0].id, 2)
         XCTAssertEqual(masters[1].id, 1)
         
         // Limit is out of bound
-        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(5, offset: 6).run()
+        masters = Master.queryAll().OrderBy("id", isASC: false).Limit(5, offset: 6).run()
         XCTAssertEqual(masters.count, 2)
         XCTAssertEqual(masters[0].id, 2)
         XCTAssertEqual(masters[1].id, 1)
         
         // Offset is out of bound
-        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(5, offset: 10).run()
+        masters = Master.queryAll().OrderBy("id", isASC: false).Limit(5, offset: 10).run()
         XCTAssertEqual(masters.count, 0)
         
     }
@@ -128,11 +129,11 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssertEqual(masters.count, 8)
         
         // Testing 'AND'
-        masters = Master.query(byFilters: ("age", ">", 22)).AND(("score", "<", 85)).run()
+        masters = Master.query("age", ">", 22).AND("score", "<", 85).run()
         XCTAssertEqual(masters.count, 2)
         
         // Testing 'AND', 'OrderBy'
-        masters = Master.query(byFilters: ("name", "LIKE", "fun%")).AND(("age", "<=", "77")).AND(("score", ">", 65)).OrderBy(property: "score", isASC: false).run()
+        masters = Master.query("name", "LIKE", "fun%").AND("age", "<=", "77").AND("score", ">", 65).OrderBy("score", isASC: false).run()
         XCTAssertEqual(masters.count, 3)
         XCTAssertEqual(masters[0].score, 123)
         XCTAssertEqual(masters[1].score, 95)
@@ -140,7 +141,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         
         // Testing 'AND', 'OrderBy', 'OR'
-        masters = Master.query(byFilters: ("id", ">", 5)).OR(("score", "<", 85)).AND(("age", ">=", 33)).OrderBy(property: "id", isASC: false).run()
+        masters = Master.query("id", ">", 5).OR("score", "<", 85).AND("age", ">=", 33).OrderBy("id", isASC: false).run()
         
         XCTAssertEqual(masters.count, 5)
         XCTAssertEqual(masters[0].id, 8)
@@ -189,12 +190,12 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssertTrue(dog3.save())
         
         
-        var results = Dog.query(byFilters: (attribute: "name", operator: "LIKE", value: "dog%")).run()
+        var results = Dog.query("name", "LIKE", "dog%").run()
         XCTAssertTrue(results.contains(dog1))
         XCTAssertTrue(results.contains(dog2))
         XCTAssertTrue(results.contains(dog3))
         
-        results = Dog.query(byFilters: (attribute: "age", operator: ">=", value: 13)).run()
+        results = Dog.query("age", ">=", 13).run()
         XCTAssertTrue(results.contains(dog2))
         XCTAssertTrue(results.contains(dog3))
     }
@@ -235,14 +236,14 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssertTrue(dog3.save())
         
         
-        var dogs = Dog.query(byFilters: (attribute: "masterId", operator: "=", value: master.id)).run()
+        var dogs = Dog.query("masterId", "=", master.id).run()
         XCTAssertEqual(dogs.count, 3)
         
         
         print("AAAAA \(Thread.current)")
         dog3.masterId = nil
         XCTAssertTrue(dog3.save())
-        dogs = Dog.query(byFilters: (attribute: "name", operator: "=", value: "dog_3")).run()
+        dogs = Dog.query("name", "=", "dog_3").run()
         XCTAssertEqual(dogs.count, 1)
         let dog33 = dogs.first!
         XCTAssertEqual(dog3, dog33)
@@ -266,7 +267,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         
         
-        var dogs = Dog.query(byFilters: (attribute: "masterId", operator: "=", value: master.id)).run()
+        var dogs = Dog.query("masterId", "=", master.id).run()
         XCTAssertEqual(dogs.count, 3)
         
         master.name = "master_2"
@@ -316,7 +317,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssertFalse(Dog.modelExists(model: dog3))
         XCTAssertFalse(Dog.modelExists(primaryKey: dog3.name))
         
-        dogs = Dog.query(byFilters: (attribute: "masterId", operator: "=", value: master.id)).run()
+        dogs = Dog.query("masterId", "=", master.id).run()
         XCTAssertEqual(dogs.count, 1)
         
         dog11 = dogs.first
@@ -326,15 +327,15 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         try! Dog.delete(model: dog1)
         
-        dogs = Dog.query(byFilters: (attribute: "masterId", operator: "=", value: master.id)).run()
+        dogs = Dog.query("masterId", "=", master.id).run()
         XCTAssertEqual(dogs.count, 0)
         
-        var masters = Master.query(byFilters: (attribute: "id", operator: "=", value: master.id)).run()
+        var masters = Master.query("id", "=", master.id).run()
         XCTAssertEqual(masters.count, 1)
         
         try! Master.delete(model: master)
         
-        masters = Master.query(byFilters: (attribute: "id", operator: "=", value: master.id)).run()
+        masters = Master.query("id", "=", master.id).run()
         XCTAssertEqual(masters.count, 0)
         
     }

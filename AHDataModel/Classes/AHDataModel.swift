@@ -27,14 +27,13 @@ private struct AHDBHelper {
         return type
     }
     
-    fileprivate static func decodeFilter(sql: String, filter: (String, String,Any?)) -> (String, [AHDBAttribute]) {
+    fileprivate static func decodeFilter(_ sql: String, _ property: String, _ Operator: String, _ value: Any?) -> (String, [AHDBAttribute]) {
         var sql = sql
-        let (key, operator_, value) = filter
         var attributes = [AHDBAttribute]()
         if let valueArr = value as? [Any?]  {
-            sql += "\(key) \(operator_) "
+            sql += "\(property) \(Operator) "
             // really weak operator check :)
-            if operator_.lowercased().contains("in") {
+            if Operator.lowercased().contains("in") {
                 for (i,value) in valueArr.enumerated() {
                     if i == 0 {
                         sql += "(?,"
@@ -48,13 +47,13 @@ private struct AHDBHelper {
                     attributes.append(attr)
                 }
             }else{
-                fatalError("Operator '\(operator_)' is not legal")
+                fatalError("Operator '\(Operator)' is not legal")
             }
             
         }else{
-            sql += "\(key) \(operator_) ?"
+            sql += "\(property) \(Operator) ?"
             
-            let attr = AHDBAttribute(key: key, value: value, type: AHDBHelper.getValueType(value: value))
+            let attr = AHDBAttribute(key: property, value: value, type: AHDBHelper.getValueType(value: value))
             attributes.append(attr)
         }
         
@@ -72,23 +71,23 @@ public class AHDataModelQuery<T: AHDataModel> {
         self.sql = rawSQL
         self.db = db
     }
-    public func AND(_ filter: (String, String,Any?)) -> AHDataModelQuery{
+    public func AND(_ property: String, _ Operator: String, _ value: Any?) -> AHDataModelQuery{
         sql += " AND "
-        let (newSql, attributes) = AHDBHelper.decodeFilter(sql: sql, filter: filter)
+        let (newSql, attributes) = AHDBHelper.decodeFilter(sql, property, Operator, value)
         self.sql = newSql
         self.attributes.append(contentsOf: attributes)
         return self
     }
     
-    public func OR(_ filter: (String, String,Any?)) -> AHDataModelQuery{
+    public func OR(_ property: String, _ Operator: String, _ value: Any?) -> AHDataModelQuery{
         sql += " OR "
-        let (newSql, attributes) = AHDBHelper.decodeFilter(sql: sql, filter: filter)
+        let (newSql, attributes) = AHDBHelper.decodeFilter(sql, property, Operator, value)
         self.sql = newSql
         self.attributes.append(contentsOf: attributes)
         return self
     }
     
-    public func OrderBy(property: String, isASC: Bool) -> AHDataModelQuery{
+    public func OrderBy(_ property: String, isASC: Bool) -> AHDataModelQuery{
         sql += " ORDER BY \(property) \(isASC ? "ASC" : "DESC") "
         return self
     }
@@ -262,15 +261,15 @@ extension AHDataModel {
         }
     }
     
-    public static func query(byFilters filter: (String,
-        String, Any?)) -> AHDataModelQuery<Self> {
+    /// Query with WHERE condictions
+    public static func query(_ property: String, _ Operator: String, _ value: Any?) -> AHDataModelQuery<Self> {
         guard let db = Self.db else {
             fatalError("Internal error: db doesn't exist!!")
         }
         setup()
         let tableName = Self.tableName()
         let sql: String = "SELECT * FROM \(tableName) WHERE "
-        let (newSql, attributes) = AHDBHelper.decodeFilter(sql: sql, filter: filter)
+        let (newSql, attributes) = AHDBHelper.decodeFilter(sql, property, Operator, value)
         
         let query = AHDataModelQuery<Self>(rawSQL: newSql, db: db)
         query.attributes = attributes
