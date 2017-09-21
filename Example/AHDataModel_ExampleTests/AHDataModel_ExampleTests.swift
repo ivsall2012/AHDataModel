@@ -39,7 +39,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
         
-        var masters = Master.query(rawSQL: "id >= ? AND age <= ?", values: [5, 88])
+        let masters = Master.query(rawSQL: "id >= ? AND age <= ?", values: [5, 88])
         XCTAssertEqual(masters.count, 2)
         
     }
@@ -56,7 +56,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
         
-        var masters = Master.queryAll()
+        var masters = Master.queryAll().run()
         XCTAssertEqual(masters.count, 8)
         
         // 3 nil ages being skipped!
@@ -79,6 +79,38 @@ class AHDataModel_ExampleTests: XCTestCase {
         // below causes fatalError
 //        masters = Master.query(byFilters: ("age", "fsafsa", [33,66,88])).run()
         
+        
+        
+        // Testing 'Limit'
+        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(2).run()
+        XCTAssertEqual(masters.count, 2)
+        XCTAssertEqual(masters[0].id, 8)
+        XCTAssertEqual(masters[1].id, 7)
+        
+        
+        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(3, offset: 2).run()
+        XCTAssertEqual(masters.count, 3)
+        XCTAssertEqual(masters[0].id, 6)
+        XCTAssertEqual(masters[1].id, 5)
+        XCTAssertEqual(masters[2].id, 4)
+        
+        
+        
+        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(2, offset: 6).run()
+        XCTAssertEqual(masters.count, 2)
+        XCTAssertEqual(masters[0].id, 2)
+        XCTAssertEqual(masters[1].id, 1)
+        
+        // Limit is out of bound
+        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(5, offset: 6).run()
+        XCTAssertEqual(masters.count, 2)
+        XCTAssertEqual(masters[0].id, 2)
+        XCTAssertEqual(masters[1].id, 1)
+        
+        // Offset is out of bound
+        masters = Master.queryAll().OrderBy(property: "id", isASC: false).Limit(5, offset: 10).run()
+        XCTAssertEqual(masters.count, 0)
+        
     }
     func testCompositeQuery_1() {
         let master0  = Master(id: 1, age: 12, score: 45, name: "fun_1")
@@ -92,7 +124,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
         
-        var masters = Master.queryAll()
+        var masters = Master.queryAll().run()
         XCTAssertEqual(masters.count, 8)
         
         // Testing 'AND'
