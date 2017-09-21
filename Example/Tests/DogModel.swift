@@ -20,7 +20,7 @@ struct Dog: Equatable{
 }
 
 extension Dog: AHDataModel {
-    init(with dict: [String : Any]) {
+    init(with dict: [String : Any?]) {
         self.age = dict["age"] as! Int
         self.name = dict["name"] as! String
         self.masterId = dict["masterId"] as? Int

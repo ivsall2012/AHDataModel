@@ -11,7 +11,93 @@
 private struct AHDBHelper {
     /// [modelName: isSetup]
     static var isSetupDict = [String: Bool]()
+    
+    fileprivate static func getValueType(value: Any?) -> AHDBDataType? {
+        if value == nil {
+            return nil
+        }
+        var type: AHDBDataType?
+        if value is Double || value is Float {
+            type = .real
+        }else if value is Int {
+            type = .integer
+        }else if value is String {
+            type = .text
+        }
+        return type
+    }
+    
+    fileprivate static func decodeFilter(sql: String, filter: (String, String,Any?)) -> (String, [AHDBAttribute]) {
+        var sql = sql
+        let (key, operator_, value) = filter
+        var attributes = [AHDBAttribute]()
+        if let valueArr = value as? [Any?]  {
+            sql += "\(key) \(operator_) "
+            // really weak operator check :)
+            if operator_.lowercased().contains("in") {
+                for (i,value) in valueArr.enumerated() {
+                    if i == 0 {
+                        sql += "(?,"
+                    }else if i == valueArr.count - 1 {
+                        sql += "?)"
+                    }else{
+                        sql += "?,"
+                    }
+                    
+                    let attr = AHDBAttribute(key: "", value: value, type: AHDBHelper.getValueType(value: value))
+                    attributes.append(attr)
+                }
+            }else{
+                fatalError("Operator '\(operator_)' is not legal")
+            }
+            
+        }else{
+            sql += "\(key) \(operator_) ?"
+            
+            let attr = AHDBAttribute(key: key, value: value, type: AHDBHelper.getValueType(value: value))
+            attributes.append(attr)
+        }
+        
+        return (sql, attributes)
+    }
+    
 }
+
+public class AHDataModelQuery<T: AHDataModel> {
+    fileprivate(set) var sql: String
+    fileprivate var attributes = [AHDBAttribute]()
+    fileprivate var db: AHDatabase
+    
+    fileprivate init(rawSQL: String, db: AHDatabase){
+        self.sql = rawSQL
+        self.db = db
+    }
+    public func AND(_ filter: (String, String,Any?)) -> AHDataModelQuery{
+        sql += " AND "
+        let (newSql, attributes) = AHDBHelper.decodeFilter(sql: sql, filter: filter)
+        self.sql = newSql
+        self.attributes.append(contentsOf: attributes)
+        return self
+    }
+    
+    public func OR(_ filter: (String, String,Any?)) -> AHDataModelQuery{
+        sql += " OR "
+        let (newSql, attributes) = AHDBHelper.decodeFilter(sql: sql, filter: filter)
+        self.sql = newSql
+        self.attributes.append(contentsOf: attributes)
+        return self
+    }
+    
+    public func OrderBy(property: String, isASC: Bool) -> AHDataModelQuery{
+        sql += " ORDER BY \(property) \(isASC ? "ASC" : "DESC")"
+        return self
+    }
+    
+    public func run() -> [T] {
+        return T.runQuery(sql: self.sql, attributes: self.attributes)
+    }
+}
+
 
 /// Methods to be conformed.
 /// Note: You should always specify primary key in columnInfo() since currently the protocol only supports models with primary keys.
@@ -19,7 +105,7 @@ public protocol AHDataModel {
     static func databaseFilePath() -> String
     static func columnInfo() -> [AHDBColumnInfo]
 //    static func initModel(with dict: [String: Any]) -> Self
-    init(with dict: [String: Any])
+    init(with dict: [String: Any?])
     static func tableName() -> String
     
     /// return [propertyStr: value], propertyStr is the property/column names used in both the object(or struct) and the database. 
@@ -162,29 +248,35 @@ extension AHDataModel {
         }
     }
     
-    public static func query(byFilters filters: (attribute: String,
-        operator: String, value: Any)...) ->[Self] {
+    public static func query(byFilters filter: (String,
+        String, Any?)) -> AHDataModelQuery<Self> {
         guard let db = Self.db else {
-            return []
+            fatalError("Internal error: db doesn't exist!!")
         }
         setup()
         let tableName = Self.tableName()
-        var attributes = [AHDBAttribute]()
-        var sql: String = "SELECT * FROM \(tableName) WHERE "
-        for (index, filter) in filters.enumerated() {
-            let (attribute, operator_, value) = filter
-            checkOperator(operator_)
-            sql += "\(attribute) \(operator_) ?"
-            if index != filters.count - 1 {
-                sql += " AND "
-            }
-            let type = getValueType(value: value)
-            let attr = AHDBAttribute(key: attribute, value: value, type: type)
-            attributes.append(attr)
+        let sql: String = "SELECT * FROM \(tableName) WHERE "
+        let (newSql, attributes) = AHDBHelper.decodeFilter(sql: sql, filter: filter)
+        
+        let query = AHDataModelQuery<Self>(rawSQL: newSql, db: db)
+        query.attributes = attributes
+        
+        return query
+    }
+    
+    
+    public static func queryAll() ->[Self] {
+        setup()
+        let tableName = Self.tableName()
+        let sql = "SELECT * FROM \(tableName)"
+        let models = runQuery(sql: sql, attributes: [])
+        return models
+    }
+    
+    fileprivate static func runQuery(sql: String, attributes: [AHDBAttribute]) -> [Self] {
+        guard let db = Self.db else {
+            fatalError("Internal error: db doesn't exist!!")
         }
-        
-        
-        
         do {
             let results = try db.query(sql: sql, bindings: attributes)
             var models = [Self]()
@@ -201,6 +293,24 @@ extension AHDataModel {
         }
         
         return []
+    }
+    
+    /// Those '?' in your rawSQL have to match the values in the values array.
+    /// rawSQL is anything after WHERE clause.
+    /// Example: "SELECT * FROM MasterTable WHERE id >= ? AND age > ? OR score > ?",
+    /// Then the rawSQL should be "id >= 4 AND age > 10 OR score > 100".
+    public static func query(rawSQL: String, values: [Any?]) -> [Self] {
+        let tableName = Self.tableName()
+        let sql = "SELECT * FROM \(tableName) WHERE " + rawSQL
+        var attributes = [AHDBAttribute]()
+        for value in values {
+            let type = AHDBHelper.getValueType(value: value)
+            let attr = AHDBAttribute(key: "", value: value, type: type)
+            attributes.append(attr)
+        }
+        let models = runQuery(sql: sql, attributes: attributes)
+        return models
+        
         
     }
     
@@ -211,7 +321,7 @@ extension AHDataModel {
         }
         setup()
         guard let keyName = primaryKeyName() else {return nil}
-        let type = getValueType(value: primaryKey)
+        let type = AHDBHelper.getValueType(value: primaryKey)
         let keyAttr = AHDBAttribute(key: keyName, value: primaryKey, type: type)
         let tableName = Self.tableName()
         
@@ -279,20 +389,6 @@ extension AHDataModel {
 
 /// Helper Mthods
 extension AHDataModel {
-    fileprivate static func getValueType(value: Any?) -> AHDBDataType? {
-        if value == nil {
-            return nil
-        }
-        var type: AHDBDataType?
-        if value is Double || value is Float {
-            type = .real
-        }else if value is Int {
-            type = .integer
-        }else if value is String {
-            type = .text
-        }
-        return type
-    }
     fileprivate static func checkOperator(_ operator: String) {
         var todo: Any?
     }

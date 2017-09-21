@@ -46,7 +46,7 @@ extension UserModel: AHDataModel {
         self.position = position
     }
     
-    init(with dict: [String : Any]) {
+    init(with dict: [String : Any?]) {
         self.id = dict["id"] as! Int
         self.name = dict["name"] as? String
         self.age = dict["age"] as? Int

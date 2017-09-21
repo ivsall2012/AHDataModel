@@ -497,7 +497,10 @@ extension AHDatabase {
     }
     
     
-    private func executeSQL(sql: String, bindings: [AHDBAttribute]) throws{
+    /// Binding attributes's key is not required. It only binds values to '?'.
+    /// Yet, attributes's type IS required if the value is one of real, integer, text.
+    /// Attributes's type could be nil when NULL value needed.
+    public func executeSQL(sql: String, bindings: [AHDBAttribute]) throws{
         let stmt = try prepareStatement(sql: sql)
         
         defer {
@@ -510,6 +513,7 @@ extension AHDatabase {
             throw AHDBError.step(message: latestError)
         }
     }
+
     
     private func bind(stmt: OpaquePointer, bindings: [AHDBAttribute]) throws {
         for i in 0..<bindings.count {

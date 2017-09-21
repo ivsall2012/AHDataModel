@@ -12,9 +12,9 @@ import AHDataModel
 struct Master: Equatable {
 
     var id: Int
-    var age: Int
-    var score: Double
-    var name: String
+    var age: Int?
+    var score: Double?
+    var name: String?
     
     public static func ==(lhs: Master, rhs: Master) -> Bool {
         return lhs.id == rhs.id && lhs.age == rhs.age && lhs.score == rhs.score && lhs.name == rhs.name
@@ -24,11 +24,11 @@ struct Master: Equatable {
 
 
 extension Master: AHDataModel{
-    init(with dict: [String : Any]) {
+    init(with dict: [String : Any?]) {
         self.id = dict["id"] as! Int
-        self.age = dict["age"] as! Int
-        self.score = dict["score"] as! Double
-        self.name = dict["name"] as! String
+        self.age = dict["age"] as? Int
+        self.score = dict["score"] as? Double
+        self.name = dict["name"] as? String
     }
 
     static func databaseFilePath() -> String {
@@ -37,7 +37,7 @@ extension Master: AHDataModel{
     
     static func columnInfo() -> [AHDBColumnInfo] {
         let primary = AHDBColumnInfo(name: "id", type: .integer, constraints: "primary key")
-        let age = AHDBColumnInfo(name: "age", type: .integer, constraints: "not null")
+        let age = AHDBColumnInfo(name: "age", type: .integer)
         let score = AHDBColumnInfo(name: "score", type: .real)
         let name = AHDBColumnInfo(name: "name", type: .text)
         
