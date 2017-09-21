@@ -242,6 +242,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = MVFF28UQZP;
 						LastSwiftMigration = 0820;
 					};
 					A1AFBD4E1F725C93002F5D43 = {
@@ -536,6 +537,7 @@
 			baseConfigurationReference = A279647DA0DEF0A8BF5AD60F /* Pods-AHDataModel_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MVFF28UQZP;
 				INFOPLIST_FILE = AHDataModel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -550,6 +552,7 @@
 			baseConfigurationReference = E39FF43C8799D2E88689E499 /* Pods-AHDataModel_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MVFF28UQZP;
 				INFOPLIST_FILE = AHDataModel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -627,6 +630,7 @@
 				A1AFBD571F725C93002F5D43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

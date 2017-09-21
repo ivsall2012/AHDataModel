@@ -30,7 +30,7 @@ extension UserModel: AHDataModel {
     init(id: Int) {
         self.id = id
     }
-    init(id: Int, name: String, age: Int, address: String, phone: String) {
+    init(id: Int, name: String?, age: Int?, address: String?, phone: String?) {
         self.id = id
         self.name = name
         self.age = age
@@ -38,7 +38,7 @@ extension UserModel: AHDataModel {
         self.phone = phone
     }
     
-    init(id: Int, score: Double, isVIP: Bool, balance: Double, position: String) {
+    init(id: Int, score: Double?, isVIP: Bool?, balance: Double?, position: String?) {
         self.id = id
         self.score = score
         self.isVIP = isVIP

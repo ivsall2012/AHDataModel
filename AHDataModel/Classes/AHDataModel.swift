@@ -29,23 +29,27 @@ public protocol AHDataModel {
 
 /// Public Instance Methods
 extension AHDataModel {
-    @discardableResult
     public func delete() -> Bool {
-        return Self.delete(model: self)
+        do {
+            try Self.delete(model: self)
+        } catch _ {
+            return false
+        }
+        return true
     }
     
-    @discardableResult
-    public func save() -> Bool{
-        // If update failed, then go insert
-        if Self.modelExists(model: self) {
-            if Self.update(model: self) {
-                return true
+    public func save() -> Bool {
+        do {
+            // If update failed, then go insert
+            if Self.modelExists(model: self) {
+                try Self.update(model: self)
+            }else {
+                try Self.insert(model: self)
             }
-        }else if Self.insert(model: self) {
-            return true
+        } catch _ {
+            return false
         }
-        
-        return false
+        return true
         
     }
     
@@ -55,9 +59,9 @@ extension AHDataModel {
     /// shouldBeOverrided is false, this model's nil properties will be set if the other model's.
     /// shouldBeOverrided is false by default.
     @discardableResult
-    public func merge(model: Self, shouldBeOverrided: Bool = false) throws -> Self{
+    public func merge(model: Self, shouldBeOverrided: Bool = false) -> Self{
         guard self.primaryKey() == model.primaryKey() else {
-            throw AHDBError.other(message: "Both models must have the same primary key")
+            preconditionFailure("Both models must have the same primary key")
         }
         let thisAttributes = self.attributes()
         let thatDict = model.toDict()
@@ -79,91 +83,83 @@ extension AHDataModel {
 
 /// Public Static Methods
 extension AHDataModel {
-    @discardableResult
-    public static func delete(model: Self) -> Bool {
+    public static func delete(model: Self) throws {
         guard let db = Self.db else {
-            return false
+            throw AHDBError.other(message: "Internal error, db does not exist!")
         }
         setup()
-        do {
-            if let primaryKey = model.primaryKey() {
-                try db.delete(tableName: Self.tableName(), primaryKey: primaryKey)
-                return true
-            }else{
-                precondition(false, "\(Self.self) doens't have a primary key!!")
-            }
-            
-        } catch let error {
-            print("delete error:\(error)")
+        
+        if let primaryKey = model.primaryKey() {
+            try db.delete(tableName: Self.tableName(), primaryKey: primaryKey)
+        }else{
+            throw AHDBError.other(message: "\(Self.self) doens't have a primary key!!")
         }
-        return false
     }
     
-    @discardableResult
-    public static func update(model: Self) -> Bool {
-        
+    public static func update(model: Self) throws {
         guard let db = Self.db else {
-            return false
+            throw AHDBError.other(message: "Internal error, db does not exist!")
         }
 
         setup()
-        do {
-            let attributes = model.attributes()
-            if let primaryKey = model.primaryKey() {
-                try db.update(tableName: Self.tableName(), bindings: attributes, primaryKey: primaryKey)
-                return true
-            }else{
-                precondition(false, "\(Self.self) doens't have a primary key!!")
-            }
-            
-        } catch let error {
-            print("update error:\(error)")
+        
+        let attributes = model.attributes()
+        if let primaryKey = model.primaryKey() {
+            try db.update(tableName: Self.tableName(), bindings: attributes, primaryKey: primaryKey)
+        }else{
+            throw AHDBError.other(message: "\(Self.self) doens't have a primary key!!")
         }
-        return false
     }
     
     /// not a transaction yet!
-    @discardableResult
-    public static func update(models: [Self]) -> Bool {
-        var flag = true
+    public static func update(models: [Self]) throws {
         for model in models {
-            if update(model: model) == false {
-                flag = false
-            }
+            try update(model: model)
         }
-        return flag
     }
     
-    @discardableResult
-    public static func insert(model: Self) -> Bool {
-        let attributes = model.attributes()
+    /// Update specific properties of this model into the database
+    /// Note: This will override existing values.
+    public static func update(model: Self, forProperties properties: [String]) throws {
         guard let db = Self.db else {
-            return false
+            throw AHDBError.other(message: "Internal error, db does not exist!")
         }
         setup()
-        do {
-            try db.insert(table: Self.tableName(), bindings: attributes)
-            return true
-        } catch let error {
-            print("inserts error:\(error)")
+        
+        let keys = model.toDict().keys
+        for key in properties {
+            if keys.contains(key) == false {
+                throw AHDBError.other(message: "\(Self.self) doesn't have key '\(key)'")
+            }
         }
-        return false
         
+        let attributes = model.attributes().filter({ (attr) -> Bool in
+            return properties.contains(attr.key)
+        })
         
+        if let primaryKey = model.primaryKey() {
+            try db.update(tableName: Self.tableName(), bindings: attributes, primaryKey: primaryKey)
+            return
+        }else{
+            throw AHDBError.other(message: "\(Self.self) doens't have a primary key!!")
+        }
+        
+    }
+    
+    public static func insert(model: Self) throws {
+        let attributes = model.attributes()
+        guard let db = Self.db else {
+            throw AHDBError.other(message: "Internal error, db does not exist!")
+        }
+        setup()
+        try db.insert(table: Self.tableName(), bindings: attributes)
     }
     
     /// If return false, there must be at least 1 error. not a transaction yet!
-    @discardableResult
-    public static func insert(models: [Self]) -> Bool {
-        setup()
-        var flag = true
-        
+    public static func insert(models: [Self]) throws {
         for model in models {
-            if insert(model: model) == false {
-                flag = false
-            }
+            try insert(model: model)
         }
-        return flag
     }
     
     public static func query(byFilters filters: (attribute: String,
@@ -262,25 +258,21 @@ extension AHDataModel {
         
     }
     
-    @discardableResult
-    public static func deleteAll() -> Bool {
+    
+    /// Internally, it will drop the table containing the data model
+    public static func deleteAll() throws {
         guard let db = Self.db else {
-            return false
+            return
         }
         guard db.tableExists(tableName: Self.tableName()) else {
-            return true
+            return
         }
-        do {
-            try db.deleteTable(name: Self.tableName())
-            if let isSetup = AHDBHelper.isSetupDict[Self.modelName()],
-                isSetup == true {
-                AHDBHelper.isSetupDict[Self.modelName()] = false
-            }
-            return true
-        } catch let error {
-            print("deleteAll error \(error)")
+        
+        try db.deleteTable(name: Self.tableName())
+        if let isSetup = AHDBHelper.isSetupDict[Self.modelName()],
+            isSetup == true {
+            AHDBHelper.isSetupDict[Self.modelName()] = false
         }
-        return false
     }
     
 }
@@ -374,12 +366,6 @@ extension AHDataModel {
         var modelDict = [String: Any]()
         for attribute in attributes {
             // one attribute
-            if attribute.key == "isVIP" {
-                if let value = attribute.value {
-                    print("value:\(value)")
-                }
-            }
-            
             modelDict[attribute.key] = attribute.value
         }
         return modelDict
@@ -396,24 +382,17 @@ extension AHDataModel {
         }
         let info = Self.columnInfo()
         
-        do {
-            if db.tableExists(tableName: Self.tableName()) {
-                //1. migration check
-                
-                //2. setup
-                AHDBHelper.isSetupDict[Self.modelName()] = true
-                return
-            }else{
-                try db.createTable(tableName: Self.tableName(), columnInfoArr: info)
-                AHDBHelper.isSetupDict[Self.modelName()] = true
-                return
-            }
-        } catch let error as AHDBError {
-            print("createTable error:\(error)")
-        } catch _ {
+        if db.tableExists(tableName: Self.tableName()) {
+            //1. migration check
             
+            //2. setup
+            AHDBHelper.isSetupDict[Self.modelName()] = true
+            return
+        }else{
+            try! db.createTable(tableName: Self.tableName(), columnInfoArr: info)
+            AHDBHelper.isSetupDict[Self.modelName()] = true
         }
-        precondition(false, "setup failed")
+
         
     }
     
