@@ -17,6 +17,10 @@
 		A1AFBD591F725CC2002F5D43 /* DogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD421F725562002F5D43 /* DogModel.swift */; };
 		A1AFBD5A1F725CC2002F5D43 /* Master.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD431F725562002F5D43 /* Master.swift */; };
 		A1AFBD5B1F725CC2002F5D43 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD441F725562002F5D43 /* UserModel.swift */; };
+		A1AFBD5C1F747D21002F5D43 /* DogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD421F725562002F5D43 /* DogModel.swift */; };
+		A1AFBD5D1F747D21002F5D43 /* Master.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD431F725562002F5D43 /* Master.swift */; };
+		A1AFBD5E1F747D21002F5D43 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD441F725562002F5D43 /* UserModel.swift */; };
+		A1AFBD601F748389002F5D43 /* AHDataModel_Other_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFBD5F1F748389002F5D43 /* AHDataModel_Other_Tests.swift */; };
 		B305F10691012E56141015E9 /* Pods_AHDataModel_ExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75BF6E87502D1EA40150154E /* Pods_AHDataModel_ExampleTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +56,7 @@
 		A1AFBD4F1F725C93002F5D43 /* AHDataModel_ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AHDataModel_ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AFBD511F725C93002F5D43 /* AHDataModel_ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AHDataModel_ExampleTests.swift; sourceTree = "<group>"; };
 		A1AFBD531F725C93002F5D43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1AFBD5F1F748389002F5D43 /* AHDataModel_Other_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AHDataModel_Other_Tests.swift; sourceTree = "<group>"; };
 		A279647DA0DEF0A8BF5AD60F /* Pods-AHDataModel_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHDataModel_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AHDataModel_Example/Pods-AHDataModel_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A2BB8A65EF83D6F8651B017E /* Pods_AHDataModel_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHDataModel_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39FF43C8799D2E88689E499 /* Pods-AHDataModel_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHDataModel_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-AHDataModel_Example/Pods-AHDataModel_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +186,7 @@
 				A1AFBD431F725562002F5D43 /* Master.swift */,
 				A1AFBD441F725562002F5D43 /* UserModel.swift */,
 				A1AFBD511F725C93002F5D43 /* AHDataModel_ExampleTests.swift */,
+				A1AFBD5F1F748389002F5D43 /* AHDataModel_Other_Tests.swift */,
 				A1AFBD531F725C93002F5D43 /* Info.plist */,
 			);
 			path = AHDataModel_ExampleTests;
@@ -400,7 +406,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				A1AFBD5C1F747D21002F5D43 /* DogModel.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				A1AFBD5E1F747D21002F5D43 /* UserModel.swift in Sources */,
+				A1AFBD5D1F747D21002F5D43 /* Master.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +421,7 @@
 				A1AFBD591F725CC2002F5D43 /* DogModel.swift in Sources */,
 				A1AFBD5B1F725CC2002F5D43 /* UserModel.swift in Sources */,
 				A1AFBD521F725C93002F5D43 /* AHDataModel_ExampleTests.swift in Sources */,
+				A1AFBD601F748389002F5D43 /* AHDataModel_Other_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

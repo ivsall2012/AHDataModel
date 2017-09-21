@@ -125,9 +125,9 @@ public struct AHDBColumnInfo: Equatable {
     ///   - referenceKey: the name that foreginKey is referring to in the foreign table
     ///   - referenceTable: foreign table's name
     public init(foreginKey: String, type: AHDBDataType, referenceKey: String, referenceTable: String) {
-        self.name = foreginKey
-        self.referenceKey = referenceKey
-        self.referenceTable = referenceTable
+        self.name = foreginKey.lowercased()
+        self.referenceKey = referenceKey.lowercased()
+        self.referenceTable = referenceTable.lowercased()
         self.isForeignKey = true
         self.type = type
     }
@@ -137,10 +137,14 @@ public struct AHDBColumnInfo: Equatable {
         self.name = name
         self.type = type
         for constraint in constraints {
-            if constraint.lowercased().contains("primary key") {
+            guard constraint.characters.count > 0 else {
+                continue
+            }
+            let lowercased = constraint.lowercased()
+            if lowercased.contains("primary key") {
                 isPrimaryKey = true
             }
-            self.constraints.append(constraint)
+            self.constraints.append(lowercased)
         }
     }
     
@@ -160,7 +164,24 @@ public struct AHDBColumnInfo: Equatable {
     }
     
     public static func ==(lhs: AHDBColumnInfo, rhs: AHDBColumnInfo) -> Bool {
-        return lhs.name == rhs.name && lhs.type == rhs.type && lhs.isPrimaryKey == rhs.isPrimaryKey
+        let b1 = lhs.name == rhs.name && lhs.type == rhs.type && lhs.isPrimaryKey == rhs.isPrimaryKey && lhs.referenceKey == rhs.referenceKey && lhs.referenceTable == rhs.referenceTable && lhs.constraints.count == rhs.constraints.count
+        
+        if b1 {
+            for constraint in lhs.constraints {
+                if rhs.constraints.contains(constraint) == false {
+                    return false
+                }
+            }
+            
+            for constraint in rhs.constraints {
+                if lhs.constraints.contains(constraint) == false {
+                    return false
+                }
+            }
+            return true
+        }
+        
+        return false
     }
     
 }

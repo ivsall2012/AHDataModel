@@ -277,7 +277,6 @@ extension AHDataModel {
         return query
     }
     
-    
     public static func queryAll() -> AHDataModelQuery<Self> {
         guard let db = Self.db else {
             fatalError("Internal error: db doesn't exist!!")
