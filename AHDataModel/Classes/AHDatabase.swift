@@ -186,6 +186,27 @@ extension AHDatabase {
         
     }
     
+    @discardableResult
+    func turnOnForeignKey() -> Bool {
+        do {
+            try self.executeSQL(sql: "PRAGMA foreign_keys = ON;", bindings: [])
+            return true
+        } catch let error {
+            print("turnOnForeignKey error:\(error)")
+        }
+        return false
+    }
+    
+    @discardableResult
+    func turnOffForeinKey() -> Bool {
+        do {
+            try self.executeSQL(sql: "PRAGMA foreign_keys = OFF;", bindings: [])
+            return true
+        } catch let error {
+            print("turnOffForeinKey error:\(error)")
+        }
+        return false
+    }
     
     func close() {
         if dbPointer != nil {
@@ -249,6 +270,19 @@ extension AHDatabase {
         }
 
         return false
+    }
+    
+    /// read/write exclusively without other process or thread to read or write
+    func beginExclusive() throws {
+        try executeSQL(sql: "BEGIN EXCLUSIVE", bindings: [])
+    }
+    
+    func rollback() throws {
+        try executeSQL(sql: "ROLLBACK", bindings: [])
+    }
+    
+    func commit() throws {
+        try executeSQL(sql: "COMMIT", bindings: [])
     }
     
     /// bindings could be empty, i.e. []

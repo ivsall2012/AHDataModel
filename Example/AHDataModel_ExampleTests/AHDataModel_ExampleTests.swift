@@ -28,6 +28,34 @@ class AHDataModel_ExampleTests: XCTestCase {
         try! ChatModel.deleteAll()
     }
     
+    func testTransaction() {
+        do {
+            try ChatModel.transaction {
+                let chat1 = ChatModel(text: "There's a place ... chat_1", userId: 12)
+                chat1.save()
+                let chat2 = ChatModel(text: "in your heart ... chat_2", userId: 55)
+                chat2.save()
+                let chat3 = ChatModel(text: "and I know that ... chat_3", userId: 12)
+                chat3.save()
+                
+                throw AHDBError.other(message: "transaction exception!!")
+                
+//                let chat4 = ChatModel(text: "it is ... chat_4", userId: 55)
+//                chat4.save()
+//                let chat5 = ChatModel(text: "love ... chat_5", userId: 12)
+//                chat5.save()
+            }
+        } catch _ {
+            // test if rollback takes effect
+            let results = ChatModel.queryAll().run()
+            XCTAssertEqual(results.count, 0)
+            return
+        }
+        XCTAssert(false)
+    }
+    
+    
+    
     /// If you model ignores id primary key then they don't have a system assigned IDs untill you query them back from the database.
     /// After you query them back and they all have their own IDs, then you can update them as usual.
     func testNotSetPrimaryKey_2() {
@@ -122,7 +150,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
         
-        let masters = Master.query(rawSQL: "id >= ? AND age <= ?", values: [5, 88])
+        let masters = Master.queryWhere(rawSQL: "id >= ? AND age <= ?", values: [5, 88])
         XCTAssertEqual(masters.count, 2)
         
     }
