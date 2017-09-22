@@ -7,111 +7,6 @@
 //
 
 
-/// This struct acts as a storage for the protocol
-private struct AHDBHelper {
-    /// [modelName: isSetup]
-    static var isSetupDict = [String: Bool]()
-    
-    fileprivate static func getValueType(value: Any?) -> AHDBDataType? {
-        if value == nil {
-            return nil
-        }
-        var type: AHDBDataType?
-        if value is Double || value is Float {
-            type = .real
-        }else if value is Int {
-            type = .integer
-        }else if value is String {
-            type = .text
-        }
-        return type
-    }
-    
-    fileprivate static func decodeFilter(_ sql: String, _ property: String, _ Operator: String, _ value: Any?) -> (String, [AHDBAttribute]) {
-        var sql = sql
-        var attributes = [AHDBAttribute]()
-        if let valueArr = value as? [Any?]  {
-            sql += "\(property) \(Operator) "
-            // really weak operator check :)
-            if Operator.lowercased().contains("in") {
-                for (i,value) in valueArr.enumerated() {
-                    if i == 0 {
-                        sql += "(?,"
-                    }else if i == valueArr.count - 1 {
-                        sql += "?)"
-                    }else{
-                        sql += "?,"
-                    }
-                    
-                    let attr = AHDBAttribute(key: "", value: value, type: AHDBHelper.getValueType(value: value))
-                    attributes.append(attr)
-                }
-            }else{
-                fatalError("Operator '\(Operator)' is not legal")
-            }
-            
-        }else{
-            sql += "\(property) \(Operator) ?"
-            
-            let attr = AHDBAttribute(key: property, value: value, type: AHDBHelper.getValueType(value: value))
-            attributes.append(attr)
-        }
-        
-        return (sql, attributes)
-    }
-    
-}
-
-public class AHDataModelQuery<T: AHDataModel> {
-    fileprivate(set) var sql: String
-    fileprivate var attributes = [AHDBAttribute]()
-    fileprivate var db: AHDatabase
-    
-    fileprivate init(rawSQL: String, db: AHDatabase){
-        self.sql = rawSQL
-        self.db = db
-    }
-    public func AND(_ property: String, _ Operator: String, _ value: Any?) -> AHDataModelQuery{
-        sql += " AND "
-        let (newSql, attributes) = AHDBHelper.decodeFilter(sql, property, Operator, value)
-        self.sql = newSql
-        self.attributes.append(contentsOf: attributes)
-        return self
-    }
-    
-    public func OR(_ property: String, _ Operator: String, _ value: Any?) -> AHDataModelQuery{
-        sql += " OR "
-        let (newSql, attributes) = AHDBHelper.decodeFilter(sql, property, Operator, value)
-        self.sql = newSql
-        self.attributes.append(contentsOf: attributes)
-        return self
-    }
-    
-    public func OrderBy(_ property: String, isASC: Bool) -> AHDataModelQuery{
-        sql += " ORDER BY \(property) \(isASC ? "ASC" : "DESC") "
-        return self
-    }
-    
-    
-    public func Limit(_ amount: Int) -> AHDataModelQuery {
-        sql += "LIMIT \(amount) "
-        return self
-    }
-    
-    /// Offset counting starts from Offset + 1.
-    /// If there's not enough data, then returns whatever left.
-    /// If offset is out of bound, returns nothing.
-    public func Limit(_ amount: Int, offset: Int) -> AHDataModelQuery {
-        sql += "LIMIT \(amount) OFFSET \(offset) "
-        return self
-    }
-    
-    public func run() -> [T] {
-        return T.runQuery(sql: self.sql, attributes: self.attributes)
-    }
-}
-
-
 /// Methods to be conformed.
 /// Note: You should always specify primary key in columnInfo() since currently the protocol only supports models with primary keys.
 public protocol AHDataModel {
@@ -289,7 +184,7 @@ extension AHDataModel {
         return query
     }
     
-    fileprivate static func runQuery(sql: String, attributes: [AHDBAttribute]) -> [Self] {
+    internal static func runQuery(sql: String, attributes: [AHDBAttribute]) -> [Self] {
         guard let db = Self.db else {
             fatalError("Internal error: db doesn't exist!!")
         }
@@ -538,4 +433,57 @@ public extension Bool {
 
 
 
-
+/// This struct acts as a storage for the protocol
+internal struct AHDBHelper {
+    /// [modelName: isSetup]
+    static var isSetupDict = [String: Bool]()
+    
+    static func getValueType(value: Any?) -> AHDBDataType? {
+        if value == nil {
+            return nil
+        }
+        var type: AHDBDataType?
+        if value is Double || value is Float {
+            type = .real
+        }else if value is Int {
+            type = .integer
+        }else if value is String {
+            type = .text
+        }
+        return type
+    }
+    
+    static func decodeFilter(_ sql: String, _ property: String, _ Operator: String, _ value: Any?) -> (String, [AHDBAttribute]) {
+        var sql = sql
+        var attributes = [AHDBAttribute]()
+        if let valueArr = value as? [Any?]  {
+            sql += "\(property) \(Operator) "
+            // really weak operator check :)
+            if Operator.lowercased().contains("in") {
+                for (i,value) in valueArr.enumerated() {
+                    if i == 0 {
+                        sql += "(?,"
+                    }else if i == valueArr.count - 1 {
+                        sql += "?)"
+                    }else{
+                        sql += "?,"
+                    }
+                    
+                    let attr = AHDBAttribute(key: "", value: value, type: AHDBHelper.getValueType(value: value))
+                    attributes.append(attr)
+                }
+            }else{
+                fatalError("Operator '\(Operator)' is not legal")
+            }
+            
+        }else{
+            sql += "\(property) \(Operator) ?"
+            
+            let attr = AHDBAttribute(key: property, value: value, type: AHDBHelper.getValueType(value: value))
+            attributes.append(attr)
+        }
+        
+        return (sql, attributes)
+    }
+    
+}

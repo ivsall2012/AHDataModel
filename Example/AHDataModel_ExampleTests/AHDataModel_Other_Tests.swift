@@ -22,6 +22,11 @@ class AHDataModel_Other_Tests: XCTestCase {
         super.tearDown()
     }
     
+    func testColumnInfoInDisk() {
+        
+    }
+    
+    
     func testColumnInfo() {
         let primary1 = AHDBColumnInfo(name: "id", type: .integer, constraints: "primary key")
         let primary2 = AHDBColumnInfo(name: "id", type: .integer, constraints: "PRIMARY key")
@@ -62,9 +67,6 @@ class AHDataModel_Other_Tests: XCTestCase {
         XCTAssertEqual(foreginKey1,foreginKey2)
         XCTAssertNotEqual(foreginKey1, foreginKey3)
         XCTAssertNotEqual(foreginKey4, foreginKey5)
-        
-        
-        
         
         
     }
