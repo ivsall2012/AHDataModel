@@ -95,6 +95,11 @@ extension AHDB {
     }
 }
 
+
+
+
+private let ColumnInfoKey = "ColumnInfoKey"
+
 /// Methods to be conformed.
 /// Note: You should always specify primary key in columnInfo() since currently the protocol only supports models with primary keys.
 public protocol AHDataModel: AHDB {
@@ -163,6 +168,11 @@ extension AHDataModel {
         return model
     }
 }
+
+extension AHDataModel {
+    
+}
+
 
 //MARK:- Query
 extension AHDataModel {
@@ -489,7 +499,6 @@ extension AHDataModel {
         guard let db = Self.db else {
             return
         }
-        let info = Self.columnInfo()
         
         if db.tableExists(tableName: Self.tableName()) {
             //1. migration check
@@ -498,8 +507,12 @@ extension AHDataModel {
             AHDBHelper.isSetupDict[Self.modelName()] = true
             return
         }else{
+            let info = Self.columnInfo()
             try! db.createTable(tableName: Self.tableName(), columnInfoArr: info)
             AHDBHelper.isSetupDict[Self.modelName()] = true
+            
+            // save columnInfo
+            
         }
 
         

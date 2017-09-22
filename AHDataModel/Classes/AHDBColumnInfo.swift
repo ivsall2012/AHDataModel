@@ -8,6 +8,9 @@
 
 import Foundation
 
+private var ArchivePath = (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! as NSString).appendingPathComponent("columninfoArr")
+
+
 /// This struct describes a column's infomations when created
 public struct AHDBColumnInfo: Equatable {
     var name: String
@@ -20,7 +23,7 @@ public struct AHDBColumnInfo: Equatable {
     /// The foregin table's name
     var referenceTable: String = ""
     
-    private(set) var constraints: [String] = [String]()
+    fileprivate(set) var constraints: [String] = [String]()
     
     
     /// This init method is used to add foregin key for this table
@@ -90,26 +93,124 @@ public struct AHDBColumnInfo: Equatable {
         return false
     }
     
-    
-    
-    
-    
-    //    var name: String
-    //    var type: AHDBDataType
-    //    var isPrimaryKey = false
-    //    var isForeignKey = false
-    //
-    //    var referenceKey: String = ""
-    //    var referenceTable: String = ""
-    //
-    //    private(set) var constraints: [String] = [String]()
-    
-    //    public func encode(with aCoder: NSCoder) {
-    //
-    //    }
-    //
-    //    public init?(coder aDecoder: NSCoder){
-    //        self.name = aDecoder.value(forKey: "")
-    //    }
-    
 }
+    
+    
+    
+
+
+
+extension AHDBColumnInfo {
+    public static func clearArchives() {
+        do {
+            try FileManager.default.removeItem(atPath: ArchivePath)
+        } catch _ {
+            
+        }
+    }
+    
+    public static func archive(columns: [AHDBColumnInfo], forVersion version: Int) {
+        NSKeyedArchiver.archiveRootObject([version: columns.encoded], toFile: ArchivePath)
+    }
+    
+    public static func unarchive(forVersion version: Int) -> [AHDBColumnInfo] {
+        let data = NSKeyedUnarchiver.unarchiveObject(withFile: ArchivePath) as? [Int: [AHDBColumnInfo.Coding]]
+        if let columns = data?[version]?.decoded as? [AHDBColumnInfo] {
+            return columns
+        }else{
+            return []
+        }
+        
+        
+    }
+    
+    
+    public class Coding: NSObject, NSCoding {
+        let info: AHDBColumnInfo?
+        
+        init(info: AHDBColumnInfo) {
+            self.info = info
+            super.init()
+        }
+        //    var name: String
+        //    var type: AHDBDataType
+        //    var isPrimaryKey = false
+        //    var isForeignKey = false
+        //
+        //    var referenceKey: String = ""
+        //    var referenceTable: String = ""
+        //
+        //    private(set) var constraints: [String] = [String]()
+        
+        required public init?(coder aDecoder: NSCoder) {
+            let name: String = aDecoder.decodeObject(forKey: "name") as! String
+            let typeStr = aDecoder.decodeObject(forKey: "type") as! String
+            let type: AHDBDataType = AHDBDataType(rawValue: typeStr)!
+            let isPrimaryKey = aDecoder.decodeBool(forKey: "isPrimaryKey")
+            let isForeignKey = aDecoder.decodeBool(forKey: "isForeignKey")
+        
+            let referenceKey: String = aDecoder.decodeObject(forKey: "referenceKey") as! String
+            let referenceTable: String = aDecoder.decodeObject(forKey: "referenceTable") as! String
+            
+            let constraints: [String] = aDecoder.decodeObject(forKey: "constraints") as! [String]
+            
+            var info = AHDBColumnInfo(name: name, type: type)
+            info.isPrimaryKey = isPrimaryKey
+            info.isForeignKey = isForeignKey
+            info.referenceKey = referenceKey
+            info.referenceTable = referenceTable
+            info.constraints = constraints
+            self.info = info
+            super.init()
+        }
+        
+        public func encode(with aCoder: NSCoder) {
+            guard let info = self.info else {
+                return
+            }
+            
+            aCoder.encode(info.name, forKey: "name")
+            aCoder.encode(info.type.description, forKey: "type")
+            aCoder.encode(info.isPrimaryKey, forKey: "isPrimaryKey")
+            aCoder.encode(info.isForeignKey, forKey: "isForeignKey")
+            aCoder.encode(info.referenceKey, forKey: "referenceKey")
+            aCoder.encode(info.referenceTable, forKey: "referenceTable")
+            aCoder.encode(info.constraints, forKey: "constraints")
+        }
+        
+    }
+}
+
+ protocol Encodable {
+    var encoded: Decodable? { get }
+}
+public protocol Decodable {
+    var decoded: Encodable? { get }
+}
+
+extension AHDBColumnInfo: Encodable {
+    public var encoded: Decodable? {
+        return AHDBColumnInfo.Coding(info: self)
+    }
+}
+extension AHDBColumnInfo.Coding: Decodable {
+    public var decoded: Encodable? {
+        return self.info
+    }
+}
+
+extension Sequence where Iterator.Element: Encodable {
+    var encoded: [Decodable] {
+        return self.filter({ $0.encoded != nil }).map({ $0.encoded! })
+    }
+}
+extension Sequence where Iterator.Element: Decodable {
+    var decoded: [Encodable] {
+        return self.filter({ $0.decoded != nil }).map({ $0.decoded! })
+    }
+}
+
+
+
+
+

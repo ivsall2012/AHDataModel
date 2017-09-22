@@ -23,6 +23,19 @@ class AHDataModel_Other_Tests: XCTestCase {
     }
     
     func testColumnInfoInDisk() {
+        AHDBColumnInfo.clearArchives()
+        let info1 = Master.columnInfo()
+        AHDBColumnInfo.archive(columns: info1, forVersion: 1)
+        let info11 = AHDBColumnInfo.unarchive(forVersion: 1)
+        XCTAssertEqual(info11, info1)
+        
+        let info22 = AHDBColumnInfo.unarchive(forVersion: 2)
+        XCTAssertEqual(info22.count, 0)
+        
+        
+        AHDBColumnInfo.archive(columns: info1, forVersion: 3)
+        let info111 = AHDBColumnInfo.unarchive(forVersion: 3)
+        XCTAssertEqual(info1, info111)
         
     }
     
