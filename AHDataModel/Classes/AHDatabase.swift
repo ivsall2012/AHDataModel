@@ -67,6 +67,8 @@ internal struct AHDBAttribute: CustomStringConvertible, Equatable {
         if keysEqual && typeEqual && primaryEqual && foreginEqual {
             if let valueA = lhs.value, let valueB = rhs.value {
                 return valuesEqual(valueA, valueB, lhs.type)
+            }else if lhs.value == nil && rhs.value == nil{
+                return true
             }else{
                 return false
             }
@@ -251,16 +253,24 @@ extension AHDatabase {
     
     /// bindings could be empty, i.e. []
     func insert(table:String, bindings: [AHDBAttribute]) throws {
-        // INSERT OR REPLACE INTO TABLE_NAME (column1, column2, column3,...columnN)
+        // INSERT INTO TABLE_NAME (column1, column2, column3,...columnN)
         // VALUES (value1, value2, value3,...valueN);
         var bindingHolders = ""
         var names = ""
 
-        
+        var shouldSkippedPK: AHDBAttribute?
         for i in 0..<bindings.count {
             let attribute = bindings[i]
             if attribute.isPrimaryKey && attribute.value == nil {
-                throw AHDBError.other(message: "primary must not be nil")
+                // It's ok to ignore primary key and keep inserting since Sqlite will take care of it if it's a integer
+                if attribute.type == .integer{
+                    // remove this PK attribute, otherswise the binding would fail.
+                    shouldSkippedPK = attribute
+                    continue
+                }else{
+                    throw AHDBError.other(message: "\(table) must have at least an integer primary key")
+                }
+                
             }
             let name = attribute.key
             let cleanName = cleanUpString(str: name)
@@ -278,7 +288,12 @@ extension AHDatabase {
         let cleanTableName = cleanUpString(str: table)
 
         let sql = "INSERT INTO \(cleanTableName) (\(names)) VALUES(\(bindingHolders))"
-        
+        var bindings = bindings
+        if shouldSkippedPK != nil {
+            if let index = bindings.index(of: shouldSkippedPK!) {
+                bindings.remove(at: index)
+            }
+        }
         try executeSQL(sql: sql, bindings: bindings)
         
     }

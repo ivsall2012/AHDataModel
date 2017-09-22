@@ -23,6 +23,7 @@ public protocol AHDataModel {
 
 /// Public Instance Methods
 extension AHDataModel {
+    @discardableResult
     public func delete() -> Bool {
         do {
             try Self.delete(model: self)
@@ -32,6 +33,7 @@ extension AHDataModel {
         return true
     }
     
+    @discardableResult
     public func save() -> Bool {
         do {
             // If update failed, then go insert
@@ -87,6 +89,12 @@ extension AHDataModel {
             try db.delete(tableName: Self.tableName(), primaryKey: primaryKey)
         }else{
             throw AHDBError.other(message: "\(Self.self) doens't have a primary key!!")
+        }
+    }
+    
+    public static func delete(models: [Self]) throws {
+        for model in models {
+            try delete(model: model)
         }
     }
     
@@ -408,7 +416,10 @@ extension AHDataModel {
 
 
 public extension Bool {
-    init?(_ value: Any?) {
+    init?(_ value: Any??) {
+        guard let value = value else {
+            return nil
+        }
         if let value = value as? Bool {
             self.init(value)
         }else{

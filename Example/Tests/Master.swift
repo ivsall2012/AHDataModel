@@ -11,10 +11,23 @@ import AHDataModel
 
 struct Master: Equatable {
 
-    var id: Int
+    var id: Int?
     var age: Int?
     var score: Double?
     var name: String?
+    
+    public init(id: Int, age: Int?, score: Double?, name: String?) {
+        self.id = id
+        self.age = age
+        self.score = score
+        self.name = name
+    }
+    
+    public init(age: Int?, score: Double?, name: String?) {
+        self.age = age
+        self.score = score
+        self.name = name
+    }
     
     public static func ==(lhs: Master, rhs: Master) -> Bool {
         return lhs.id == rhs.id && lhs.age == rhs.age && lhs.score == rhs.score && lhs.name == rhs.name

@@ -15,6 +15,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         try! UserModel.deleteAll()
         try! Master.deleteAll()
         try! Dog.deleteAll()
+        try! ChatModel.deleteAll()
     }
     
     override func tearDown() {
@@ -24,8 +25,90 @@ class AHDataModel_ExampleTests: XCTestCase {
         try! UserModel.deleteAll()
         try! Master.deleteAll()
         try! Dog.deleteAll()
+        try! ChatModel.deleteAll()
+    }
+    
+    /// If you model ignores id primary key then they don't have a system assigned IDs untill you query them back from the database.
+    /// After you query them back and they all have their own IDs, then you can update them as usual.
+    func testNotSetPrimaryKey_2() {
+        let userInfoA = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702")
+        let userInfoB = UserModel(id: 55, name: "Chris", age: 35, address: "BeiJing", phone: "+86010......")
+        
+        XCTAssertTrue(userInfoA.save())
+        XCTAssertTrue(userInfoB.save())
+        
+        
+        let chat1 = ChatModel(text: "There's a place ... chat_1", userId: 12)
+        let chat2 = ChatModel(text: "in your heart ... chat_2", userId: 55)
+        let chat3 = ChatModel(text: "and I know that ... chat_3", userId: 12)
+        let chat4 = ChatModel(text: "it is ... chat_4", userId: 55)
+        let chat5 = ChatModel(text: "love ... chat_5", userId: 12)
+        XCTAssertNoThrow(try ChatModel.insert(models: [chat1,chat2,chat3,chat4,chat5]))
+        
+        // now those chat models have their own IDs assigned by Sqlite
+        var chats = ChatModel.query("userId", "=", 12).run()
+        XCTAssertEqual(chats.count, 3)
+        
+        chats = ChatModel.query("userId", "=", 55).OrderBy("userId", isASC: true).run()
+        XCTAssertEqual(chats.count, 2)
+        
+        // now since chats contains models with IDs, we can update them as usual
+        chats.forEach { (chat) in
+            var chat = chat
+            chat.text = "aaa"
+            XCTAssertTrue(chat.save())
+        }
+        
+        chats = ChatModel.query("userId", "=", 55).OrderBy("userId", isASC: true).run()
+        XCTAssertEqual(chats.count, 2)
+        XCTAssertEqual(chats[0].text, "aaa")
+        XCTAssertEqual(chats[1].text, "aaa")
+        
+        
+        
+        
+        // foregin key tests
+        XCTAssertTrue(userInfoA.delete())
+    
+        chats = ChatModel.query("userId", "=", 12).run()
+        XCTAssertEqual(chats.count, 0)
+    
+        chats = ChatModel.query("userId", "=", 55).run()
+        XCTAssertEqual(chats.count, 2)
         
     }
+    
+    func testNotSetPrimaryKey_1() {
+        // no primary key id
+        let master0  = Master(age: 12, score: 45, name: "fun_1")
+        let master1  = Master(age: 22, score: 55, name: nil)
+        let master2  = Master(age: 33, score: 65, name: "fun_2")
+        let master3  = Master(age: nil, score: 75, name: "master_3")
+        
+        // with primary key id
+        let master4 = Master(id: 55, age: nil, score: 85, name: nil)
+        let master5  = Master(id: 66, age: 66, score: 95, name: nil)
+        let master6  = Master(id: 76, age: nil, score: 123, name: "fun_6")
+        let master7  = Master(id: 87, age: 88, score: 234, name: "fun_7")
+        
+        try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
+        
+        var masters = Master.queryAll().run()
+        XCTAssertEqual(masters.count, 8)
+        
+        masters = Master.query("age", "<=", 35).OrderBy("age", isASC: true).run()
+        XCTAssertEqual(masters.count, 3)
+        XCTAssertEqual(masters[0].age, 12)
+        XCTAssertEqual(masters[1].age, 22)
+        XCTAssertEqual(masters[2].age, 33)
+        
+        XCTAssertNoThrow(try Master.delete(models: masters))
+        
+        masters = Master.query("age", "<=", 35).OrderBy("age", isASC: true).run()
+        XCTAssertEqual(masters.count, 0)
+        
+    }
+    
     
     func testRawSQL() {
         let master0  = Master(id: 1, age: 12, score: 45, name: "fun_1")
