@@ -9,28 +9,18 @@
 import Foundation
 import AHDataModel
 
-struct MigrationModel: Equatable {
+struct MigrationModel {
     
     var id: Int?
-    var age: Int?
-    var score: Double?
-    var name: String?
+    var firstName: String?
+    var lastName: String?
+    var fullName: String?
     
-    public init(id: Int, age: Int?, score: Double?, name: String?) {
+    
+    public init(id: Int, firstName: String?,lastName: String?) {
         self.id = id
-        self.age = age
-        self.score = score
-        self.name = name
-    }
-    
-    public init(age: Int?, score: Double?, name: String?) {
-        self.age = age
-        self.score = score
-        self.name = name
-    }
-    
-    public static func ==(lhs: MigrationModel, rhs: MigrationModel) -> Bool {
-        return lhs.id == rhs.id && lhs.age == rhs.age && lhs.score == rhs.score && lhs.name == rhs.name
+        self.firstName = firstName
+        self.lastName = lastName
     }
     
 }
@@ -39,9 +29,9 @@ struct MigrationModel: Equatable {
 extension MigrationModel: AHDataModel{
     init(with dict: [String : Any?]) {
         self.id = dict["id"] as? Int
-        self.age = dict["age"] as? Int
-        self.score = dict["score"] as? Double
-        self.name = dict["name"] as? String
+//        self.firstName = dict["firstName"] as? String
+//        self.lastName = dict["lastName"] as? String
+        self.fullName = dict["fullName"] as? String
     }
     
     static func databaseFilePath() -> String {
@@ -50,13 +40,14 @@ extension MigrationModel: AHDataModel{
     
     static func columnInfo() -> [AHDBColumnInfo] {
         let primary = AHDBColumnInfo(name: "id", type: .integer, constraints: "primary key")
-        let age = AHDBColumnInfo(name: "age", type: .integer)
-        let score = AHDBColumnInfo(name: "score", type: .real)
-        let name = AHDBColumnInfo(name: "name", type: .text)
+
+//        let firstName = AHDBColumnInfo(name: "firstName", type: .text)
+//        let lastName = AHDBColumnInfo(name: "lastName", type: .text)
+//        return [primary,firstName,lastName]
         
-        return [primary,age,score,name]
+        let fullName = AHDBColumnInfo(name: "fullName", type: .text)
+        return [primary,fullName]
         
-//        return [primary,age,score]
     }
     
     static func tableName() -> String {
@@ -65,9 +56,9 @@ extension MigrationModel: AHDataModel{
     func toDict() -> [String : Any] {
         var dict = [String: Any]()
         dict["id"] = self.id
-        dict["age"] = self.age
-        dict["score"] = self.score
-        dict["name"] = self.name
+//        dict["firstName"] = self.firstName
+//        dict["lastName"] = self.lastName
+        dict["fullName"] = self.lastName
         return dict
     }
 }

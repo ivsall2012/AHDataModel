@@ -17,8 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        try! MigrationModel.migrate(ToVersion: 1) { (v) -> [String : Any] in
-            return [:]
+        try! MigrationModel.migrate(ToVersion: 2) { (migrator, newProperty) -> Void in
+            
+//            if newProperty == "fullName" {
+//                migrator.renameProperty(from: "name")
+//            }
+            migrator.combineProperties(propertyA: "lastName", separator: ", ", propertyB: "firstName")
         }
         return true
     }

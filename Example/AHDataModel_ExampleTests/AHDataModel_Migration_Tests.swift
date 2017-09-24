@@ -26,18 +26,21 @@ class AHDataModel_Other_Tests: XCTestCase {
     func testMigration() {
         //######################## FIRST RUN #######################
         //#### 0. reset
-//        MigrationModel.clearArchivedColumnInfo()
+//        try! MigrationModel.deleteAll()
 //        
+//        MigrationModel.clearArchivedColumnInfo()
+//
 //        //#### 1. first launch
-//        let m0  = MigrationModel(age: 12, score: 45, name: "fun_1")
-//        let m1  = MigrationModel(age: 22, score: 55, name: nil)
-//        let m2  = MigrationModel(age: 33, score: 65, name: "fun_2")
-//        let m3  = MigrationModel(age: nil, score: 75, name: "master_3")
+//        let m0  = MigrationModel(id: 23, firstName: "fisrt_1", lastName: "last_1")
+//        let m1  = MigrationModel(id: 33, firstName: "fisrt_2", lastName: "last_2")
+//        let m2  = MigrationModel(id: 54, firstName: "fisrt_3", lastName: "last_3")
+//        let m3  = MigrationModel(id: 75, firstName: "fisrt_4", lastName: "last_4")
 //        XCTAssertNoThrow(try MigrationModel.insert(models: [m0,m1,m2,m3]))
         
         //######################## SECOND RUN #######################
 //        MigrationModel.queryAll()
         
+        MigrationModel.queryAll()
         
     }
     

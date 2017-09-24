@@ -96,7 +96,47 @@ extension AHDB {
 }
 
 
+/// Migrator will only be passed in migrationBlock for newly added properties, just in case you want to provide more information for that particular new property.
+public class Migrator {
+    public let oldTableName: String
+    public let newTableName: String
+    public let property: String
+    public let primaryKey: String
+    
+    var sql: String?
+    
+    init(oldTableName: String, newTableName: String, primaryKey: String,property: String) {
+        self.oldTableName = oldTableName
+        self.newTableName = newTableName
+        self.primaryKey = primaryKey
+        self.property = property
+    }
+}
 
+extension Migrator {
+    /** With provided old/new table names and currently processing property, you can run a raw customized sql.
+    Example1 merge two string properties in to one: 
+     "UPDATE newTableName SET property = (SELECT firstName || \"-\" || lastName FROM oldTableName WHERE newTableName.id = oldTableName.id)"
+    NOTE: in Sqlite3, operator '||' is the concat command in other SQL languages, e.g. MySQL.
+     
+    Example2 getting chat messages counts for this newProperty:
+     "UPDATE newTableName SET property = (SELECT count(*) FROM ChatMessage WHERE newTableName.id = ChatMessage.id) WHERE newTableName.id = oldTableName.id"
+    */
+    public func runRawSQL(sql: String){
+        self.sql = sql
+    }
+    
+    public func renameProperty(from oldProperty: String) {
+        self.sql = "UPDATE \(newTableName) SET \(property) = (SELECT \(oldProperty) FROM \(oldTableName) WHERE \(newTableName).\(primaryKey) = \(oldTableName).\(primaryKey))"
+    }
+    
+    /// Combine two string properties into one.
+    /// NOTE: make sure two properties are actually in the old table and they are indeed 'TEXT' type.
+    public func combineProperties(propertyA: String, separator: String, propertyB: String) {
+        self.sql = "UPDATE \(newTableName) SET \(property) = (SELECT \(propertyA) || \"\(separator)\" || \(propertyB) FROM \(oldTableName) WHERE \(newTableName).\(primaryKey) = \(oldTableName).\(primaryKey))"
+    }
+    
+}
 
 private let ColumnInfoKey = "ColumnInfoKey"
 
@@ -519,192 +559,6 @@ extension AHDataModel {
             // save columnInfo
             Self.archive(forVersion: 0)
         }
-    }
-}
-
-
-//MARK:- Migration
-extension AHDataModel {
-    public static func migrate(ToVersion version: Int, process: (_ oldVersion: Int)->[String:Any]) throws {
-        guard let db = Self.db else {
-            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
-        }
-        guard db.tableExists(tableName: Self.tableName()) else {
-            throw AHDBError.other(message: "Current model table does not exist!")
-        }
-        guard version > 0 else {
-            throw AHDBError.internal(message: "Migration version must be greater than zero.")
-        }
-        guard let lastVersion = Self.lastVersion() else{
-            throw AHDBError.internal(message: "lastVersion did get saved at installation time. Migration failed! Already rolled back")
-        }
-        guard version > lastVersion else {
-            throw AHDBError.internal(message: "version must be larger than lastVersion")
-        }
-        db.turnOffForeinKey()
-        
-        guard Self.beginExclusive() else {
-            throw AHDBError.transaction(message: "Failed to start migration in transaction!")
-        }
-        
-        //### 2. create table using the latest column schema
-        let lastColumns = Self.unarchive(forVersion: lastVersion)
-        let currentColumns = Self.columnInfo()
-        guard lastColumns.count > 0 && currentColumns.count > 0 else {
-            throw AHDBError.other(message: "lastColumns.count and currentColumns.count must all be non-zero!")
-        }
-        
-        let tempTableName = "tempTableName"
-        
-        
-        //### 3. create temp table
-        try db.createTable(tableName: tempTableName, columns: currentColumns)
-        
-        
-        //### 4. insert primary keys
-        let lastPK_Attrs = lastColumns.filter { (column) -> Bool in
-            return column.isPrimaryKey
-            }
-        
-        guard let lastPK_Attr = lastPK_Attrs.first else {
-            throw AHDBError.internal(message: "lastPrimaryKey doesn't exist??")
-        }
-        
-        let currentPK_Attrs = currentColumns.filter { (column) -> Bool in
-            return column.isPrimaryKey
-        }
-        
-        guard let currentPK_Attr = currentPK_Attrs.first else {
-            throw AHDBError.other(message: "new coloumnInfo() must contain a primary key!")
-        }
-        
-        let insertSQL = "INSERT INTO \(tempTableName) (\(currentPK_Attr.name)) SELECT \(lastPK_Attr.name) FROM \(Self.tableName())"
-        do {
-            try db.executeSQL(sql: insertSQL, bindings: [])
-        } catch let error {
-            Self.rollback()
-            throw error
-        }
-        
-        
-        //### 5. update unchanged columns
-        var unchangedColumnNames = [String]()
-        let lastColumnNames = lastColumns.map { (column) -> String in
-            return column.name
-        }
-        for column in currentColumns {
-            if column.isPrimaryKey {
-                continue
-            }
-            if lastColumnNames.contains(column.name) {
-                unchangedColumnNames.append(column.name)
-            }
-        }
-        
-        for columnName in unchangedColumnNames {
-            let updateSQL = "UPDATE \(tempTableName) SET \(columnName) = (SELECT \(columnName) FROM \(Self.tableName()) WHERE \(tempTableName).\(currentPK_Attr.name) = \(Self.tableName()).\(lastPK_Attr.name))"
-            do {
-                try db.executeSQL(sql: updateSQL, bindings: [])
-            } catch let error {
-                Self.rollback()
-                throw error
-            }
-        }
-        
-        
-        //### 6. update renamed and new columns one by one
-        //## 6.1 update renamed columns, using AHDataModelQuery, if any
-        
-        //## 6.2 update new columns, using AHDataModelQuery, if any
-//        let updateSQL = "UPDATE TABLE \(tempTableName) SET \(columnName) = (SELECT \(columnName) FROM \(Self.tableName()) WHERE \(tempTableName).\(currentPK_Attr.name) = \(Self.tableName()).\(lastPK_Attr.name))"
-//        
-//        let dict = process(lastVersion)
-        
-        
-        
-        //## 7. drop old table and rename temp table
-        try db.deleteTable(name: Self.tableName())
-        try db.executeSQL(sql: "ALTER TABLE \(tempTableName) RENAME TO \(Self.tableName());", bindings: [])
-        
-        
-        //## 8. save current columnInfo
-        Self.archive(forVersion: version)
-        
-        
-        //### 9. commit migration
-        guard Self.commit() else {
-            Self.rollback()
-            throw AHDBError.transaction(message: "Commit failed during migration! Already rolled back.")
-        }
-        
-        db.turnOnForeignKey()
-    }
-
-    
-    /// If return nil, that means this model haven't had any migration yet
-    public static func lastVersion() -> Int? {
-        if let lastVersion = UserDefaults.standard.value(forKey: Self.lastVersionKey) as? Int {
-            return lastVersion
-        }
-        return nil
-    }
-    
-    public static func shouldMigrate() -> Bool{
-        guard let lastVersion = Self.lastVersion() else{
-            return false
-        }
-        let lastColumns = Self.unarchive(forVersion: lastVersion).sorted { (columnA, columnB) -> Bool in
-            return columnA.name > columnB.name
-        }
-        let currentColumns = Self.columnInfo().sorted { (columnA, columnB) -> Bool in
-            return columnA.name > columnB.name
-        }
-        
-        return lastColumns == currentColumns
-        
-    }
-    
-    /// DANGER!!! WON'T BE ABLE TO MIGRATE CORRECTLY. IT'T ONLY FOR TESTING PURPOSE!
-    public static func clearArchivedColumnInfo() {
-        do {
-            try FileManager.default.removeItem(atPath: Self.archivedColumnsPath)
-            UserDefaults.standard.set(nil, forKey: Self.lastVersionKey)
-        } catch _ {
-            
-        }
-    }
-    
-    /// Archive current model columnInfo.
-    /// version must be >= 1
-    public static func archive(forVersion version: Int) {
-        let columns = Self.columnInfo()
-        NSKeyedArchiver.archiveRootObject([version: columns.encoded], toFile: Self.archivedColumnsPath)
-        UserDefaults.standard.set(version, forKey: Self.lastVersionKey)
-    }
-    
-    public static func unarchive(forVersion version: Int) -> [AHDBColumnInfo] {
-        let data = NSKeyedUnarchiver.unarchiveObject(withFile: Self.archivedColumnsPath) as? [Int: [AHDBColumnInfo.Coding]]
-        if let columns = data?[version]?.decoded as? [AHDBColumnInfo] {
-            return columns
-        }else{
-            return []
-        }
-        
-        
-    }
-    
-    
-    
-    
-    
-    /// The last version this model called archive(forVersion version: Int)
-    fileprivate static var lastVersionKey: String {
-        return "\(Self.tableName)_lastVersionKey"
-    }
-    
-    /// The file path for storing column information
-    fileprivate static var archivedColumnsPath: String {
-        return (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! as NSString).appendingPathComponent("\(Self.tableName())_archivedColumns)")
     }
 }
 
