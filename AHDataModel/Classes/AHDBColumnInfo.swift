@@ -8,8 +8,6 @@
 
 import Foundation
 
-private var ArchivePath = (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! as NSString).appendingPathComponent("columninfoArr")
-
 
 /// This struct describes a column's infomations when created
 public struct AHDBColumnInfo: Equatable {
@@ -101,31 +99,7 @@ public struct AHDBColumnInfo: Equatable {
 
 
 extension AHDBColumnInfo {
-    public static func clearArchives() {
-        do {
-            try FileManager.default.removeItem(atPath: ArchivePath)
-        } catch _ {
-            
-        }
-    }
-    
-    public static func archive(columns: [AHDBColumnInfo], forVersion version: Int) {
-        NSKeyedArchiver.archiveRootObject([version: columns.encoded], toFile: ArchivePath)
-    }
-    
-    public static func unarchive(forVersion version: Int) -> [AHDBColumnInfo] {
-        let data = NSKeyedUnarchiver.unarchiveObject(withFile: ArchivePath) as? [Int: [AHDBColumnInfo.Coding]]
-        if let columns = data?[version]?.decoded as? [AHDBColumnInfo] {
-            return columns
-        }else{
-            return []
-        }
-        
-        
-    }
-    
-    
-    public class Coding: NSObject, NSCoding {
+    internal class Coding: NSObject, NSCoding {
         let info: AHDBColumnInfo?
         
         init(info: AHDBColumnInfo) {
@@ -164,7 +138,7 @@ extension AHDBColumnInfo {
             super.init()
         }
         
-        public func encode(with aCoder: NSCoder) {
+        internal func encode(with aCoder: NSCoder) {
             guard let info = self.info else {
                 return
             }
@@ -181,15 +155,15 @@ extension AHDBColumnInfo {
     }
 }
 
- protocol Encodable {
+internal protocol Encodable {
     var encoded: Decodable? { get }
 }
-public protocol Decodable {
+internal protocol Decodable {
     var decoded: Encodable? { get }
 }
 
 extension AHDBColumnInfo: Encodable {
-    public var encoded: Decodable? {
+    var encoded: Decodable? {
         return AHDBColumnInfo.Coding(info: self)
     }
 }
@@ -199,12 +173,12 @@ extension AHDBColumnInfo.Coding: Decodable {
     }
 }
 
-extension Sequence where Iterator.Element: Encodable {
+internal extension Sequence where Iterator.Element: Encodable {
     var encoded: [Decodable] {
         return self.filter({ $0.encoded != nil }).map({ $0.encoded! })
     }
 }
-extension Sequence where Iterator.Element: Decodable {
+internal extension Sequence where Iterator.Element: Decodable {
     var decoded: [Encodable] {
         return self.filter({ $0.decoded != nil }).map({ $0.decoded! })
     }

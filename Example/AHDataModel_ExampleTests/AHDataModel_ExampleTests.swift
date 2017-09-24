@@ -28,6 +28,14 @@ class AHDataModel_ExampleTests: XCTestCase {
         try! ChatModel.deleteAll()
     }
     
+    
+    func testMigration() {
+        let a = ["b", "c", "d"].sorted()
+        let b = ["d", "b", "c"].sorted()
+        XCTAssertEqual(a, b)
+    }
+    
+    
     func testTransaction() {
         do {
             try ChatModel.transaction {

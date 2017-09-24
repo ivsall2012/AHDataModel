@@ -25,6 +25,8 @@ public enum AHDBError: Error, CustomStringConvertible {
     case preapre(message: String)
     case step(message: String)
     case bind(message: String)
+    case transaction(message: String)
+    case `internal`(message: String)
     case other(message: String)
     public var description: String {
         switch self {
@@ -36,6 +38,10 @@ public enum AHDBError: Error, CustomStringConvertible {
             return "AHDB step error: \(message)"
         case .bind(let message):
             return "AHDB bind error: \(message)"
+        case .transaction(let message):
+            return "AHDB transaction error: \(message)"
+        case .internal(message: let message):
+            return "AHDB internal error: \(message)"
         case .other(let message):
             return "AHDB other error: \(message)"
         }
@@ -217,8 +223,10 @@ extension AHDatabase {
     }
     
     
-    func createTable(tableName: String, columnInfoArr: [AHDBColumnInfo]) throws {
-        
+    func createTable(tableName: String, columns: [AHDBColumnInfo]) throws {
+        guard columns.count > 0 else {
+            throw AHDBError.other(message: "Columns.cout must not be zero!")
+        }
         // 1. create sql statement
         let clearnTableName = cleanUpString(str: tableName)
         var createTableSql = "CREATE TABLE IF NOT EXISTS \(clearnTableName) ("
@@ -226,9 +234,9 @@ extension AHDatabase {
         // So here we hardcoded the table name and column names.
         // see https://www.sqlite.org/cintro.html and search 'Parameters may not be used for column or table names.'
         
-        for i in 0..<columnInfoArr.count {
-            let columnInfo = columnInfoArr[i]
-            if i == (columnInfoArr.count - 1) {
+        for i in 0..<columns.count {
+            let columnInfo = columns[i]
+            if i == (columns.count - 1) {
                 createTableSql.append("\(columnInfo.bindingSql));")
             }else{
                 createTableSql.append("\(columnInfo.bindingSql),")

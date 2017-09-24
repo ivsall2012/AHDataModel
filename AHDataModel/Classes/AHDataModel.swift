@@ -26,7 +26,7 @@ extension AHDB {
     @discardableResult
     public static func transaction(_ tasks: () throws ->Void) rethrows -> Bool {
         guard let db = Self.db else {
-            fatalError("Internal error, db does not exist!")
+            fatalError("Internal error, database connection does not exist!")
         }
         
         guard beginExclusive() else {
@@ -52,7 +52,7 @@ extension AHDB {
     @discardableResult
     public static func beginExclusive() -> Bool {
         guard let db = Self.db else {
-            fatalError("Internal error, db does not exist!")
+            fatalError("Internal error, database connection does not exist!")
         }
         
         do {
@@ -67,7 +67,7 @@ extension AHDB {
     @discardableResult
     public static func rollback() -> Bool {
         guard let db = Self.db else {
-            fatalError("Internal error, db does not exist!")
+            fatalError("Internal error, database connection does not exist!")
         }
         
         do {
@@ -82,7 +82,7 @@ extension AHDB {
     @discardableResult
     public static func commit() -> Bool {
         guard let db = Self.db else {
-            fatalError("Internal error, db does not exist!")
+            fatalError("Internal error, database connection does not exist!")
         }
         
         do {
@@ -104,14 +104,19 @@ private let ColumnInfoKey = "ColumnInfoKey"
 /// Note: You should always specify primary key in columnInfo() since currently the protocol only supports models with primary keys.
 public protocol AHDataModel: AHDB {
     static func columnInfo() -> [AHDBColumnInfo]
+//    static func renameProperties() -> [String: String]
     
     init(with dict: [String: Any?])
     
     static func tableName() -> String
     
+
+    
+    
     /// return [propertyStr: value], propertyStr is the property/column names used in both the object(or struct) and the database. 
     /// So the Swift property names and dtabase column names should be the same.
     func toDict() -> [String: Any]
+    
 }
 
 //MARK:- Model Instance Methods
@@ -167,10 +172,6 @@ extension AHDataModel {
         let model = Self(with: dict)
         return model
     }
-}
-
-extension AHDataModel {
-    
 }
 
 
@@ -275,7 +276,7 @@ extension AHDataModel {
     public static func insert(model: Self) throws {
         let attributes = model.attributes()
         guard let db = Self.db else {
-            throw AHDBError.other(message: "Internal error, db does not exist!")
+            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
         }
         setup()
         try db.insert(table: Self.tableName(), bindings: attributes)
@@ -293,7 +294,7 @@ extension AHDataModel {
 extension AHDataModel {
     public static func update(model: Self) throws {
         guard let db = Self.db else {
-            throw AHDBError.other(message: "Internal error, db does not exist!")
+            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
         }
         
         setup()
@@ -302,7 +303,7 @@ extension AHDataModel {
         if let primaryKey = model.primaryKey() {
             try db.update(tableName: Self.tableName(), bindings: attributes, primaryKey: primaryKey)
         }else{
-            throw AHDBError.other(message: "\(Self.self) doens't have a primary key!!")
+            throw AHDBError.internal(message: "\(Self.self) doens't have a primary key!!")
         }
     }
     
@@ -317,14 +318,14 @@ extension AHDataModel {
     /// Note: This will override existing values.
     public static func update(model: Self, forProperties properties: [String]) throws {
         guard let db = Self.db else {
-            throw AHDBError.other(message: "Internal error, db does not exist!")
+            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
         }
         setup()
         
         let keys = model.toDict().keys
         for key in properties {
             if keys.contains(key) == false {
-                throw AHDBError.other(message: "\(Self.self) doesn't have key '\(key)'")
+                throw AHDBError.internal(message: "\(Self.self) doesn't have key '\(key)'")
             }
         }
         
@@ -336,7 +337,7 @@ extension AHDataModel {
             try db.update(tableName: Self.tableName(), bindings: attributes, primaryKey: primaryKey)
             return
         }else{
-            throw AHDBError.other(message: "\(Self.self) doens't have a primary key!!")
+            throw AHDBError.internal(message: "\(Self.self) doens't have a primary key!!")
         }
         
     }
@@ -346,14 +347,14 @@ extension AHDataModel {
 extension AHDataModel {
     public static func delete(model: Self) throws {
         guard let db = Self.db else {
-            throw AHDBError.other(message: "Internal error, db does not exist!")
+            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
         }
         setup()
         
         if let primaryKey = model.primaryKey() {
             try db.delete(tableName: Self.tableName(), primaryKey: primaryKey)
         }else{
-            throw AHDBError.other(message: "\(Self.self) doens't have a primary key!!")
+            throw AHDBError.internal(message: "\(Self.self) doens't have a primary key!!")
         }
     }
     
@@ -366,7 +367,7 @@ extension AHDataModel {
     /// Internally, it will drop the table containing the data model
     public static func deleteAll() throws {
         guard let db = Self.db else {
-            return
+            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
         }
         guard db.tableExists(tableName: Self.tableName()) else {
             return
@@ -487,10 +488,9 @@ extension AHDataModel {
     
 }
 
-//MARK:- Setup and Migration
+//MARK:- Setup
 extension AHDataModel {
-    
-    /// Check if the table is being created or not
+    /// Check if the table is created already or not
     fileprivate static func setup() {
         if let isSetup = AHDBHelper.isSetupDict[Self.modelName()],
             isSetup == true {
@@ -502,22 +502,210 @@ extension AHDataModel {
         
         if db.tableExists(tableName: Self.tableName()) {
             //1. migration check
+            if Self.shouldMigrate() {
+                fatalError("\(Self.self) properties has changed and you should do a migration!")
+            }
+            
             
             //2. setup
             AHDBHelper.isSetupDict[Self.modelName()] = true
             return
         }else{
-            let info = Self.columnInfo()
-            try! db.createTable(tableName: Self.tableName(), columnInfoArr: info)
+            // this is for first launch
+            let columns = Self.columnInfo()
+            try! db.createTable(tableName: Self.tableName(), columns: columns)
             AHDBHelper.isSetupDict[Self.modelName()] = true
             
             // save columnInfo
-            
+            Self.archive(forVersion: 0)
         }
+    }
+}
 
+
+//MARK:- Migration
+extension AHDataModel {
+    public static func migrate(ToVersion version: Int, process: (_ oldVersion: Int)->[String:Any]) throws {
+        guard let db = Self.db else {
+            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
+        }
+        guard db.tableExists(tableName: Self.tableName()) else {
+            throw AHDBError.other(message: "Current model table does not exist!")
+        }
+        guard version > 0 else {
+            throw AHDBError.internal(message: "Migration version must be greater than zero.")
+        }
+        guard let lastVersion = Self.lastVersion() else{
+            throw AHDBError.internal(message: "lastVersion did get saved at installation time. Migration failed! Already rolled back")
+        }
+        guard version > lastVersion else {
+            throw AHDBError.internal(message: "version must be larger than lastVersion")
+        }
+        db.turnOffForeinKey()
+        
+        guard Self.beginExclusive() else {
+            throw AHDBError.transaction(message: "Failed to start migration in transaction!")
+        }
+        
+        //### 2. create table using the latest column schema
+        let lastColumns = Self.unarchive(forVersion: lastVersion)
+        let currentColumns = Self.columnInfo()
+        guard lastColumns.count > 0 && currentColumns.count > 0 else {
+            throw AHDBError.other(message: "lastColumns.count and currentColumns.count must all be non-zero!")
+        }
+        
+        let tempTableName = "tempTableName"
+        
+        
+        //### 3. create temp table
+        try db.createTable(tableName: tempTableName, columns: currentColumns)
+        
+        
+        //### 4. insert primary keys
+        let lastPK_Attrs = lastColumns.filter { (column) -> Bool in
+            return column.isPrimaryKey
+            }
+        
+        guard let lastPK_Attr = lastPK_Attrs.first else {
+            throw AHDBError.internal(message: "lastPrimaryKey doesn't exist??")
+        }
+        
+        let currentPK_Attrs = currentColumns.filter { (column) -> Bool in
+            return column.isPrimaryKey
+        }
+        
+        guard let currentPK_Attr = currentPK_Attrs.first else {
+            throw AHDBError.other(message: "new coloumnInfo() must contain a primary key!")
+        }
+        
+        let insertSQL = "INSERT INTO \(tempTableName) (\(currentPK_Attr.name)) SELECT \(lastPK_Attr.name) FROM \(Self.tableName())"
+        do {
+            try db.executeSQL(sql: insertSQL, bindings: [])
+        } catch let error {
+            Self.rollback()
+            throw error
+        }
+        
+        
+        //### 5. update unchanged columns
+        var unchangedColumnNames = [String]()
+        let lastColumnNames = lastColumns.map { (column) -> String in
+            return column.name
+        }
+        for column in currentColumns {
+            if column.isPrimaryKey {
+                continue
+            }
+            if lastColumnNames.contains(column.name) {
+                unchangedColumnNames.append(column.name)
+            }
+        }
+        
+        for columnName in unchangedColumnNames {
+            let updateSQL = "UPDATE \(tempTableName) SET \(columnName) = (SELECT \(columnName) FROM \(Self.tableName()) WHERE \(tempTableName).\(currentPK_Attr.name) = \(Self.tableName()).\(lastPK_Attr.name))"
+            do {
+                try db.executeSQL(sql: updateSQL, bindings: [])
+            } catch let error {
+                Self.rollback()
+                throw error
+            }
+        }
+        
+        
+        //### 6. update renamed and new columns one by one
+        //## 6.1 update renamed columns, using AHDataModelQuery, if any
+        
+        //## 6.2 update new columns, using AHDataModelQuery, if any
+//        let updateSQL = "UPDATE TABLE \(tempTableName) SET \(columnName) = (SELECT \(columnName) FROM \(Self.tableName()) WHERE \(tempTableName).\(currentPK_Attr.name) = \(Self.tableName()).\(lastPK_Attr.name))"
+//        
+//        let dict = process(lastVersion)
+        
+        
+        
+        //## 7. drop old table and rename temp table
+        try db.deleteTable(name: Self.tableName())
+        try db.executeSQL(sql: "ALTER TABLE \(tempTableName) RENAME TO \(Self.tableName());", bindings: [])
+        
+        
+        //## 8. save current columnInfo
+        Self.archive(forVersion: version)
+        
+        
+        //### 9. commit migration
+        guard Self.commit() else {
+            Self.rollback()
+            throw AHDBError.transaction(message: "Commit failed during migration! Already rolled back.")
+        }
+        
+        db.turnOnForeignKey()
+    }
+
+    
+    /// If return nil, that means this model haven't had any migration yet
+    public static func lastVersion() -> Int? {
+        if let lastVersion = UserDefaults.standard.value(forKey: Self.lastVersionKey) as? Int {
+            return lastVersion
+        }
+        return nil
+    }
+    
+    public static func shouldMigrate() -> Bool{
+        guard let lastVersion = Self.lastVersion() else{
+            return false
+        }
+        let lastColumns = Self.unarchive(forVersion: lastVersion).sorted { (columnA, columnB) -> Bool in
+            return columnA.name > columnB.name
+        }
+        let currentColumns = Self.columnInfo().sorted { (columnA, columnB) -> Bool in
+            return columnA.name > columnB.name
+        }
+        
+        return lastColumns == currentColumns
         
     }
     
+    /// DANGER!!! WON'T BE ABLE TO MIGRATE CORRECTLY. IT'T ONLY FOR TESTING PURPOSE!
+    public static func clearArchivedColumnInfo() {
+        do {
+            try FileManager.default.removeItem(atPath: Self.archivedColumnsPath)
+            UserDefaults.standard.set(nil, forKey: Self.lastVersionKey)
+        } catch _ {
+            
+        }
+    }
+    
+    /// Archive current model columnInfo.
+    /// version must be >= 1
+    public static func archive(forVersion version: Int) {
+        let columns = Self.columnInfo()
+        NSKeyedArchiver.archiveRootObject([version: columns.encoded], toFile: Self.archivedColumnsPath)
+        UserDefaults.standard.set(version, forKey: Self.lastVersionKey)
+    }
+    
+    public static func unarchive(forVersion version: Int) -> [AHDBColumnInfo] {
+        let data = NSKeyedUnarchiver.unarchiveObject(withFile: Self.archivedColumnsPath) as? [Int: [AHDBColumnInfo.Coding]]
+        if let columns = data?[version]?.decoded as? [AHDBColumnInfo] {
+            return columns
+        }else{
+            return []
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
+    /// The last version this model called archive(forVersion version: Int)
+    fileprivate static var lastVersionKey: String {
+        return "\(Self.tableName)_lastVersionKey"
+    }
+    
+    /// The file path for storing column information
+    fileprivate static var archivedColumnsPath: String {
+        return (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! as NSString).appendingPathComponent("\(Self.tableName())_archivedColumns)")
+    }
 }
 
 
