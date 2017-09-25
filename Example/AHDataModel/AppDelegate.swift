@@ -17,13 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        try! MigrationModel.migrate(ToVersion: 2) { (migrator, newProperty) -> Void in
-            
-//            if newProperty == "fullName" {
-//                migrator.renameProperty(from: "name")
+//        try! UserModel.migrate(ToVersion: 1) { (migrator, property) in
+//            
+//            if property == "chatMsgCount" {
+//                let sql = "UPDATE \(migrator.newTableName) SET \(property) = (SELECT count(*) FROM ChatModel WHERE \(ChatModel.tableName()).userId = \(migrator.newTableName).\(migrator.primaryKey))"
+//                migrator.runRawSQL(sql: sql)
 //            }
-            migrator.combineProperties(propertyA: "lastName", separator: ", ", propertyB: "firstName")
-        }
+//            
+//        }
+        
+        
         return true
     }
 

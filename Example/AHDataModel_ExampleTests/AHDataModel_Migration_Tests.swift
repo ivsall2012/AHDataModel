@@ -14,12 +14,70 @@ class AHDataModel_Other_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        
+        
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+//        try! UserModel.deleteAll()
+//        try! ChatModel.deleteAll()
+    }
+    
+    
+    /// Go to UserModel and comment/uncomment corresponding codes !!!!
+    func testMigration_A() {
+        try! UserModel.deleteAll()
+        try! ChatModel.deleteAll()
+        let u1 = UserModel(id: 12, name: "user1", age: 25, address: "Las Vegas", phone: "702702702")
+        let u2 = UserModel(id: 13, name: "user2", age: 26, address: "Las Vegas", phone: "702702702")
+        XCTAssert(u1.save() && u2.save())
+        
+        
+        let chat1 = ChatModel(text: "chat1", userId: 12)
+        let chat2 = ChatModel(text: "chat2", userId: 12)
+        let chat3 = ChatModel(text: "chat3", userId: 12)
+        let chat4 = ChatModel(text: "chat4", userId: 12)
+        let chat5 = ChatModel(text: "chat5", userId: 12)
+        let chat6 = ChatModel(text: "chat6", userId: 12)
+        let chat7 = ChatModel(text: "chat7", userId: 13)
+        let chat8 = ChatModel(text: "chat8", userId: 13)
+        
+        XCTAssertNoThrow(try ChatModel.insert(models: [chat1,chat2,chat3,chat4,chat5,chat6,chat7,chat8]))
+        
+        var chats = ChatModel.queryAll().run()
+        XCTAssertEqual(chats.count, 8)
+        
+        chats = ChatModel.query("userId", "=", 12).run()
+        XCTAssertEqual(chats.count, 6)
+        
+        chats = ChatModel.query("userId", "=", 13).run()
+        XCTAssertEqual(chats.count, 2)
+        
+        
+        
+    }
+    
+    
+    /// Go to UserModel and comment/uncomment corresponding codes !!!!
+    func testMigrating_B() {
+        try! UserModel.migrate(ToVersion: 1) { (migrator, property) in
+            
+            if property == "chatMsgCount" {
+                let sql = "UPDATE \(migrator.newTableName) SET \(property) = (SELECT count(*) FROM ChatModel WHERE \(ChatModel.tableName()).userId = \(migrator.newTableName).\(migrator.primaryKey))"
+                migrator.runRawSQL(sql: sql)
+            }
+            
+        }
+        
+        let user1 = UserModel.query(byPrimaryKey: 12)
+        let user2 = UserModel.query(byPrimaryKey: 13)
+        XCTAssertNotNil(user1)
+        XCTAssertNotNil(user2)
+        XCTAssertEqual(user1!.chatMsgCount, 6)
+        XCTAssertEqual(user2!.chatMsgCount, 2)
     }
     
     
@@ -40,7 +98,7 @@ class AHDataModel_Other_Tests: XCTestCase {
         //######################## SECOND RUN #######################
 //        MigrationModel.queryAll()
         
-        MigrationModel.queryAll()
+//        MigrationModel.queryAll()
         
     }
     

@@ -20,6 +20,7 @@ struct UserModel: Equatable {
     var isVIP: Bool?
     var balance: Double?
     var position: String?
+    var chatMsgCount: Int? = nil
     
     public static func ==(lhs: UserModel, rhs: UserModel) -> Bool {
         return lhs.id == rhs.id && lhs.name == rhs.name && lhs.age == rhs.age && lhs.address == rhs.address && lhs.phone == rhs.phone && lhs.score == rhs.score && lhs.isVIP == rhs.isVIP && lhs.balance == rhs.balance && lhs.position == rhs.position
@@ -56,6 +57,7 @@ extension UserModel: AHDataModel {
         self.isVIP = Bool(dict["isVIP"])
         self.balance = dict["balance"] as? Double
         self.position = dict["position"] as? String
+        self.chatMsgCount = dict["chatMsgCount"] as? Int
     }
     
     
@@ -72,7 +74,17 @@ extension UserModel: AHDataModel {
         let isVIP = AHDBColumnInfo(name: "isVIP", type: .integer)
         let balance = AHDBColumnInfo(name: "balance", type: .real)
         let position = AHDBColumnInfo(name: "position", type: .text)
+        
+        // Uncomment this for testMigration_A()
+        // comment this for testMigration_B()
         return [id,name,age,address,phone,score,isVIP,balance,position]
+        
+        
+        
+        // Uncomment this for testMigration_B()
+        // comment this for testMigration_A()
+//        let chatMsgCount = AHDBColumnInfo(name: "chatMsgCount", type: .integer)
+//        return [id,name,age,address,phone,score,isVIP,balance,position,chatMsgCount]
     }
     static func tableName() -> String {
         return "\(self)"
@@ -88,6 +100,12 @@ extension UserModel: AHDataModel {
         dict["isVIP"] = self.isVIP
         dict["balance"] = self.balance
         dict["position"] = self.position
+        
+        // Uncomment this for testMigration_B()
+        // comment this for testMigration_A()
+//        dict["chatMsgCount"] = self.chatMsgCount
+        
+        
         return dict
     }
 }

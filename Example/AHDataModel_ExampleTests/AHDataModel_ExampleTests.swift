@@ -323,9 +323,8 @@ class AHDataModel_ExampleTests: XCTestCase {
     func testMerge() {
         let userInfoA = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702")
         let userInfoB = UserModel(id: 12, score: 33.2, isVIP: true, balance: 99999.99, position: nil)
-        var expectUserInfoAB = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702", score: 33.2, isVIP: true, balance: 99999.99, position: nil)
-        
-        
+        var expectUserInfoAB = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702", score: 33.2, isVIP: true, balance: 99999.99, position: nil, chatMsgCount: nil)
+
         let resultInfoAB = userInfoA.merge(model: userInfoB)
         XCTAssertTrue(resultInfoAB.save())
         XCTAssertEqual(resultInfoAB,expectUserInfoAB)
