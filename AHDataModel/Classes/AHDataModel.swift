@@ -322,7 +322,7 @@ extension AHDataModel {
         let keys = model.toDict().keys
         for key in properties {
             if keys.contains(key) == false {
-                throw AHDBError.internal(message: "\(Self.self) doesn't have key '\(key)'")
+                throw AHDBError.other(message: "\(Self.self) doesn't have key '\(key)'")
             }
         }
         
@@ -336,6 +336,46 @@ extension AHDataModel {
         }else{
             throw AHDBError.internal(message: "\(Self.self) doens't have a primary key!!")
         }
+        
+    }
+    
+    /// Update specific properties of this model into the database
+    /// Note1: This will override existing values.
+    /// Note2: You can't set a property to nil for now since dict cannot contain nil value. Use the model method to set a property to nil if you already have one.
+    public static func update(byPrimaryKey primaryKey: Any, forProperties properties: [String: Any]) throws {
+        guard let db = Self.db else {
+            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
+        }
+        setup()
+        
+        guard let keyName = primaryKeyName() else {return}
+        let type = AHDBHelper.getValueType(value: primaryKey)
+        let keyAttr = AHDBAttribute(key: keyName, value: primaryKey, type: type)
+        let tableName = Self.tableName()
+        
+        let keys = Self.columnInfo().map { (info) -> String in
+            return info.name
+        }
+        
+        
+        for property in properties.keys {
+            if !keys.contains(property) {
+                throw AHDBError.other(message: "\(Self.self) doesn't have key '\(property)'")
+            }
+        }
+        
+        var attributes = [AHDBAttribute]()
+        
+        
+        
+        for (offset: _, element: (key: key, value: value)) in properties.enumerated() {
+            let type = AHDBHelper.getValueType(value: value)
+            let attr = AHDBAttribute(key: key, value: value, type: type)
+            attributes.append(attr)
+        }
+        
+        
+        try db.update(tableName: tableName, bindings: attributes, primaryKey: keyAttr)
         
     }
 }
@@ -360,6 +400,27 @@ extension AHDataModel {
             try delete(model: model)
         }
     }
+    
+    public static func delete(byPrimaryKey primaryKey: Any) throws {
+        guard let db = Self.db else {
+            throw AHDBError.internal(message: "Internal error, database connection does not exist!")
+        }
+        setup()
+        
+        guard let keyName = primaryKeyName() else {return}
+        let type = AHDBHelper.getValueType(value: primaryKey)
+        let keyAttr = AHDBAttribute(key: keyName, value: primaryKey, type: type)
+        let tableName = Self.tableName()
+        
+        try db.delete(tableName: tableName, primaryKey: keyAttr)
+    }
+    
+    public static func delete(byPrimaryKeys primaryKeys: [Any]) throws {
+        for pk in primaryKeys {
+            try delete(byPrimaryKey: pk)
+        }
+    }
+    
     
     /// Internally, it will drop the table containing the data model
     public static func deleteAll() throws {
@@ -506,7 +567,9 @@ extension AHDataModel {
             
             
             //2. setup
-            AHDBHelper.isSetupDict[Self.modelName()] = true
+            DispatchQueue.main.async {
+                AHDBHelper.isSetupDict[Self.modelName()] = true
+            }
             return
         }else{
             // this is for first launch
