@@ -32,8 +32,9 @@ extension ChatModel: AHDataModel {
     
     
     static func databaseFilePath() -> String {
-        return "/Users/Hurricane/Go/Swift/AHFM/AHSQLite/db.sqlite"
+        return (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! as NSString).appendingPathComponent("db.sqlte")
     }
+    
     static func columnInfo() -> [AHDBColumnInfo] {
         let id = AHDBColumnInfo(name: "id", type: .integer, constraints: "primary key")
         let text = AHDBColumnInfo(name: "text", type: .text)

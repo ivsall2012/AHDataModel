@@ -1,5 +1,5 @@
 PODS:
-  - AHDataModel (0.1.0)
+  - AHDataModel (0.2.1)
 
 DEPENDENCIES:
   - AHDataModel (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AHDataModel: a21fadf76b394165266dace239ac1ddf2a577fb2
+  AHDataModel: 870a8f0bd0f9c31cfc24ade48b7fb6c12c7ff46a
 
 PODFILE CHECKSUM: ebe5c50c1d510652e5b466981d79d731ffc0158f
 

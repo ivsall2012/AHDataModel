@@ -28,8 +28,10 @@ extension Dog: AHDataModel {
 
 
     static func databaseFilePath() -> String {
-        return "/Users/Hurricane/Go/Swift/AHFM/AHSQLite/db.sqlite"
+        let path = (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! as NSString).appendingPathComponent("db.sqlte")
+        return path
     }
+    
     static func columnInfo() -> [AHDBColumnInfo] {
         let age = AHDBColumnInfo(name: "age", type: .integer, constraints: "not null")
         let name = AHDBColumnInfo(name: "name", type: .text, constraints: "not null", "primary key")

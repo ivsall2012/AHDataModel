@@ -35,7 +35,7 @@ extension MigrationModel: AHDataModel{
     }
     
     static func databaseFilePath() -> String {
-        return "/Users/Hurricane/Go/Swift/AHFM/AHSQLite/db.sqlite"
+        return (NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! as NSString).appendingPathComponent("db.sqlte")
     }
     
     static func columnInfo() -> [AHDBColumnInfo] {

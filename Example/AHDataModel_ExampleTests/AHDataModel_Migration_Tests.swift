@@ -15,7 +15,17 @@ class AHDataModel_Other_Tests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        UserModel.shouldCheckWriteQueue = false
+        try! UserModel.deleteAll()
         
+        Master.shouldCheckWriteQueue = false
+        try! Master.deleteAll()
+        
+        Dog.shouldCheckWriteQueue = false
+        try! Dog.deleteAll()
+        
+        ChatModel.shouldCheckWriteQueue = false
+        try! ChatModel.deleteAll()
         
     }
     
