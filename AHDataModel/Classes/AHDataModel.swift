@@ -11,16 +11,16 @@
 /// Note: You should always specify primary key in columnInfo() since currently the protocol only supports models with primary keys.
 public protocol AHDataModel: AHDB {
     static func columnInfo() -> [AHDBColumnInfo]
-//    static func renameProperties() -> [String: String]
+    //    static func renameProperties() -> [String: String]
     
     init(with dict: [String: Any?])
     
     static func tableName() -> String
     
-
     
     
-    /// return [propertyStr: value], propertyStr is the property/column names used in both the object(or struct) and the database. 
+    
+    /// return [propertyStr: value], propertyStr is the property/column names used in both the object(or struct) and the database.
     /// So the Swift property names and dtabase column names should be the same.
     func toDict() -> [String: Any]
     
@@ -190,11 +190,18 @@ extension AHDataModel {
         try db.insert(table: Self.tableName(), bindings: attributes)
     }
     
-    /// If return false, there must be at least 1 error. not a transaction yet!
-    public static func insert(models: [Self]) throws {
+    /// Return those unsuccessfully inserted ones.
+    @discardableResult
+    public static func insert(models: [Self]) -> [Self] {
+        var unsuccessful = [Self]()
         for model in models {
-            try insert(model: model)
+            do {
+                try insert(model: model)
+            } catch {
+                unsuccessful.append(model)
+            }
         }
+        return unsuccessful
     }
 }
 
@@ -216,11 +223,18 @@ extension AHDataModel {
         }
     }
     
-    /// not a transaction yet!
-    public static func update(models: [Self]) throws {
+    /// Return those unsuccessfully updated ones.
+    @discardableResult
+    public static func update(models: [Self]) -> [Self] {
+        var unsuccessful = [Self]()
         for model in models {
-            try update(model: model)
+            do {
+                try update(model: model)
+            } catch  {
+                unsuccessful.append(model)
+            }
         }
+        return unsuccessful
     }
     
     /// Update specific properties of this model into the database
@@ -368,7 +382,7 @@ extension AHDataModel {
         let attributes = model.attributes()
         let primaryKeyAttribute = attributes.filter { (attr) -> Bool in
             return attr.isPrimaryKey
-        }.first
+            }.first
         guard let pkAttr = primaryKeyAttribute else {
             precondition(false, "model \(Self.self) must have a primary key!")
             return false
@@ -448,7 +462,7 @@ extension AHDataModel {
             var attribute = AHDBAttribute(key: name, value: value, type: type)
             attribute.isPrimaryKey = columnInfo.isPrimaryKey
             attribute.isForeginKey = columnInfo.isForeignKey
-
+            
             attributeArray.append(attribute)
             
             
