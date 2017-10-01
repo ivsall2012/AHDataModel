@@ -11,16 +11,16 @@
 /// Note: You should always specify primary key in columnInfo() since currently the protocol only supports models with primary keys.
 public protocol AHDataModel: AHDB {
     static func columnInfo() -> [AHDBColumnInfo]
-    //    static func renameProperties() -> [String: String]
+//    static func renameProperties() -> [String: String]
     
     init(with dict: [String: Any?])
     
     static func tableName() -> String
     
+
     
     
-    
-    /// return [propertyStr: value], propertyStr is the property/column names used in both the object(or struct) and the database.
+    /// return [propertyStr: value], propertyStr is the property/column names used in both the object(or struct) and the database. 
     /// So the Swift property names and dtabase column names should be the same.
     func toDict() -> [String: Any]
     
@@ -382,7 +382,7 @@ extension AHDataModel {
         let attributes = model.attributes()
         let primaryKeyAttribute = attributes.filter { (attr) -> Bool in
             return attr.isPrimaryKey
-            }.first
+        }.first
         guard let pkAttr = primaryKeyAttribute else {
             precondition(false, "model \(Self.self) must have a primary key!")
             return false
@@ -462,7 +462,7 @@ extension AHDataModel {
             var attribute = AHDBAttribute(key: name, value: value, type: type)
             attribute.isPrimaryKey = columnInfo.isPrimaryKey
             attribute.isForeginKey = columnInfo.isForeignKey
-            
+
             attributeArray.append(attribute)
             
             
@@ -561,6 +561,10 @@ internal struct AHDBHelper {
             type = .integer
         }else if value is String {
             type = .text
+        }else if value is Bool {
+            type = .integer
+        }else {
+            fatalError("Unsupported value:\(String(describing: value)) with type:\(type(of: value))")
         }
         return type
     }
