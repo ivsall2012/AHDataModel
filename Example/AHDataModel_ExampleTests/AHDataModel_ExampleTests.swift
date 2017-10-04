@@ -365,7 +365,6 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssertEqual(dogs.count, 3)
         
         
-        print("AAAAA \(Thread.current)")
         dog3.masterId = nil
         XCTAssertTrue(dog3.save())
         dogs = Dog.query("name", "=", "dog_3").run()

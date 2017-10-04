@@ -578,7 +578,11 @@ internal struct AHDBHelper {
             if Operator.lowercased().contains("in") {
                 for (i,value) in valueArr.enumerated() {
                     if i == 0 {
-                        sql += "(?,"
+                        if valueArr.count == 1 {
+                            sql += "(?)"
+                        }else{
+                            sql += "(?,"
+                        }
                     }else if i == valueArr.count - 1 {
                         sql += "?)"
                     }else{
