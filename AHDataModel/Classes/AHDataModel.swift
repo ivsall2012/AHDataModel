@@ -106,7 +106,7 @@ extension AHDataModel {
         }
         checkDatabaseSetup()
         let tableName = Self.tableName()
-        let sql = "SELECT * FROM \(tableName)"
+        let sql = "SELECT * FROM \(tableName) "
         let query = AHDataModelQuery<Self>(rawSQL: sql, db: db)
         query.attributes = []
         return query
