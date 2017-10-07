@@ -46,11 +46,11 @@
 		28F3A58FF5D6D8B7FF2E3DD1A3325929 /* Pods-AHDataModel_ExampleTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AHDataModel_ExampleTests-frameworks.sh"; sourceTree = "<group>"; };
 		30B839463DECD1DB2660F4B2D8533866 /* AHDBColumnInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AHDBColumnInfo.swift; sourceTree = "<group>"; };
 		3263CE57146674F2240EB3D93FE28D75 /* Pods-AHDataModel_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AHDataModel_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		32FB5B2DCC413CC9B7DFBE6EBB52C535 /* Pods_AHDataModel_ExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AHDataModel_ExampleTests.framework; path = "Pods-AHDataModel_ExampleTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32FB5B2DCC413CC9B7DFBE6EBB52C535 /* Pods_AHDataModel_ExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHDataModel_ExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		367DAA58448DAEDC5AE88CBD21ACBC2E /* Pods-AHDataModel_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AHDataModel_Example.release.xcconfig"; sourceTree = "<group>"; };
-		3A53ED23AC67396D7F6EC4E354E10389 /* AHDataModel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = AHDataModel.modulemap; sourceTree = "<group>"; };
-		437A68E4D609DD9D7074893A48D92109 /* Pods-AHDataModel_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-AHDataModel_Example.modulemap"; sourceTree = "<group>"; };
-		5AD0A3779DAD0300707A16F1A2D362D0 /* Pods_AHDataModel_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AHDataModel_Example.framework; path = "Pods-AHDataModel_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A53ED23AC67396D7F6EC4E354E10389 /* AHDataModel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = AHDataModel.modulemap; sourceTree = "<group>"; };
+		437A68E4D609DD9D7074893A48D92109 /* Pods-AHDataModel_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-AHDataModel_Example.modulemap"; sourceTree = "<group>"; };
+		5AD0A3779DAD0300707A16F1A2D362D0 /* Pods_AHDataModel_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHDataModel_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6066E0BED2BBDEBF0E2CBECAFA6B2950 /* Migration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
 		632578A7E7B0C9413768CA5DF7FCAED1 /* Pods-AHDataModel_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AHDataModel_Example-umbrella.h"; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -58,17 +58,17 @@
 		6CBAD38DA1A7992B637D7E813FD6DF7F /* Pods-AHDataModel_ExampleTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AHDataModel_ExampleTests-umbrella.h"; sourceTree = "<group>"; };
 		7E7CC96637F9D1BC7C87E9F638B6E020 /* Pods-AHDataModel_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AHDataModel_Example-frameworks.sh"; sourceTree = "<group>"; };
 		84CCFFD300D82A381528DC4C193D314C /* Pods-AHDataModel_ExampleTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AHDataModel_ExampleTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		99459DDE2853C39B903283C6A2E57421 /* AHDataModel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AHDataModel-dummy.m"; sourceTree = "<group>"; };
 		A6E15A54CEB7CBE879E7D0A2C33595A7 /* AHDataModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AHDataModel.swift; sourceTree = "<group>"; };
 		A92ABF9D6476E3368CAE5237FE48BF4E /* Pods-AHDataModel_ExampleTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AHDataModel_ExampleTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		AFE5B9406BCD5EC96F4F873D9F4C7BA2 /* Pods-AHDataModel_ExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AHDataModel_ExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B08E64F3B67E657C7ACECEDD5D7BF41A /* Pods-AHDataModel_ExampleTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AHDataModel_ExampleTests-dummy.m"; sourceTree = "<group>"; };
 		BB1F68E27BCC48F372DE9FACB12E4874 /* Pods-AHDataModel_ExampleTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AHDataModel_ExampleTests-resources.sh"; sourceTree = "<group>"; };
-		C1F5EBC20631D83ECB39C84F380E3C60 /* AHDataModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AHDataModel.framework; path = AHDataModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1F5EBC20631D83ECB39C84F380E3C60 /* AHDataModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AHDataModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2D5E2CA3F80BF08BD9BFC721EB7880 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D52B93EF9240ACB939AD9E9065B6E769 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D8917DDBAEDCD12A0DE33BF564EB173A /* Pods-AHDataModel_ExampleTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-AHDataModel_ExampleTests.modulemap"; sourceTree = "<group>"; };
+		D8917DDBAEDCD12A0DE33BF564EB173A /* Pods-AHDataModel_ExampleTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-AHDataModel_ExampleTests.modulemap"; sourceTree = "<group>"; };
 		DAF71DADFE2D8F9F3190BDE6C52C363A /* AHDataModel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AHDataModel-prefix.pch"; sourceTree = "<group>"; };
 		DE81635D59C75FBAE3EBCA6B439F5D57 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E888D7217C6F51862A181CFCEDEE8493 /* AHDatabase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AHDatabase.swift; sourceTree = "<group>"; };
@@ -119,7 +119,6 @@
 			children = (
 				6DDCA27CA196F97D888F31FBF6E3CA74 /* Classes */,
 			);
-			name = AHDataModel;
 			path = AHDataModel;
 			sourceTree = "<group>";
 		};
@@ -148,7 +147,6 @@
 				6066E0BED2BBDEBF0E2CBECAFA6B2950 /* Migration.swift */,
 				68A4912880DEFF5CE92B86FFB0519DA1 /* Migrator.swift */,
 			);
-			name = Classes;
 			path = Classes;
 			sourceTree = "<group>";
 		};
@@ -537,7 +535,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -701,7 +699,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

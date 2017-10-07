@@ -564,7 +564,7 @@ internal struct AHDBHelper {
         }else if value is Bool {
             type = .integer
         }else {
-            fatalError("Unsupported value:\(String(describing: value)) with type:\(type(of: value))")
+            return nil
         }
         return type
     }
