@@ -99,7 +99,7 @@ public struct AHDBColumnInfo: Equatable {
 
 
 extension AHDBColumnInfo {
-    internal class Coding: NSObject, NSCoding {
+    @objc(_TtCV11AHDataModel14AHDBColumnInfo6Coding)internal class Coding: NSObject, NSCoding {
         let info: AHDBColumnInfo?
         
         init(info: AHDBColumnInfo) {

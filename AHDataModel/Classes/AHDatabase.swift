@@ -6,7 +6,8 @@
 //  Copyright © 2017 Andy Tong. All rights reserved.
 //
 
-import CSQLite
+//import CSQLite
+import SQLite3
 
 public enum AHDBDataType: String, CustomStringConvertible {
     case integer = "Integer"

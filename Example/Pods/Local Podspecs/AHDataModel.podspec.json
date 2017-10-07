@@ -1,6 +1,6 @@
 {
   "name": "AHDataModel",
-  "version": "0.2.1",
+  "version": "0.3.4",
   "summary": "A short description of AHDataModel.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/ivsall2012/AHDataModel",
@@ -13,18 +13,10 @@
   },
   "source": {
     "git": "https://github.com/ivsall2012/AHDataModel.git",
-    "tag": "0.2.1"
+    "tag": "0.3.4"
   },
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": [
-    "AHDataModel/Classes/**/*",
-    "ModuleMaps/**/*"
-  ],
-  "libraries": "sqlite3",
-  "pod_target_xcconfig": {
-    "SWIFT_INCLUDE_PATHS[sdk=iphoneos*]": "$(PODS_TARGET_SRCROOT)/ModuleMaps/iphoneos",
-    "SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]": "$(PODS_TARGET_SRCROOT)/ModuleMaps/iphonesimulator"
-  }
+  "source_files": "AHDataModel/Classes/**/*"
 }
