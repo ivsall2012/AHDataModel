@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'AHDataModel'
-s.version          = '0.4.1'
+s.version          = '0.5.0'
 s.summary          = 'A short description of AHDataModel.'
 
 # This description is used to generate tags and improve search results.
