@@ -78,14 +78,14 @@ extension UserModel: AHDataModel {
         
         // Uncomment this for testMigration_A()
         // comment this for testMigration_B()
-        return [id,name,age,address,phone,score,isVIP,balance,position]
+//        return [id,name,age,address,phone,score,isVIP,balance,position]
         
         
         
         // Uncomment this for testMigration_B()
         // comment this for testMigration_A()
-//        let chatMsgCount = AHDBColumnInfo(name: "chatMsgCount", type: .integer)
-//        return [id,name,age,address,phone,score,isVIP,balance,position,chatMsgCount]
+        let chatMsgCount = AHDBColumnInfo(name: "chatMsgCount", type: .integer)
+        return [id,name,age,address,phone,score,isVIP,balance,position,chatMsgCount]
     }
     static func tableName() -> String {
         return "\(self)"
@@ -104,7 +104,7 @@ extension UserModel: AHDataModel {
         
         // Uncomment this for testMigration_B()
         // comment this for testMigration_A()
-//        dict["chatMsgCount"] = self.chatMsgCount
+        dict["chatMsgCount"] = self.chatMsgCount
         
         
         return dict

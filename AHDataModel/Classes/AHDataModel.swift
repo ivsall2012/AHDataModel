@@ -27,59 +27,59 @@ public protocol AHDataModel: AHDB {
 }
 
 //MARK:- Model Instance Methods
-extension AHDataModel {
-    @discardableResult
-    public func delete() -> Bool {
-        do {
-            try Self.delete(model: self)
-        } catch _ {
-            return false
-        }
-        return true
-    }
-    
-    @discardableResult
-    public func save() -> Bool {
-        do {
-            // If update failed, then go insert
-            if Self.modelExists(model: self) {
-                try Self.update(model: self)
-            }else {
-                try Self.insert(model: self)
-            }
-        } catch _ {
-            return false
-        }
-        return true
-        
-    }
-    
-    /// The model passed in is the one overriding this model.
-    /// Return a merged version of the two models.
-    /// If shouldBeOverrided is true, this model instance's properties will be the same as the other one, which is really unnecessary, you should make a copy of it instead.
-    /// shouldBeOverrided is false, this model's nil properties will be set if the other model's.
-    /// shouldBeOverrided is false by default.
-    @discardableResult
-    public func merge(model: Self, shouldBeOverrided: Bool = false) -> Self{
-        guard self.primaryKey() == model.primaryKey() else {
-            preconditionFailure("Both models must have the same primary key")
-        }
-        let thisAttributes = self.attributes()
-        let thatDict = model.toDict()
-        
-        var newAttributes = [AHDBAttribute]()
-        for attr in thisAttributes {
-            var attr_M = attr
-            if attr_M.value == nil {
-                attr_M.value = thatDict[attr.key]
-            }
-            newAttributes.append(attr_M)
-        }
-        let dict = Self.rowToDict(attributes: newAttributes)
-        let model = Self(with: dict)
-        return model
-    }
-}
+//extension AHDataModel {
+//    @discardableResult
+//    public func delete() -> Bool {
+//        do {
+//            try Self.delete(model: self)
+//        } catch _ {
+//            return false
+//        }
+//        return true
+//    }
+//
+//    @discardableResult
+//    public func save() -> Bool {
+//        do {
+//            // If update failed, then go insert
+//            if Self.modelExists(model: self) {
+//                try Self.update(model: self)
+//            }else {
+//                try Self.insert(model: self)
+//            }
+//        } catch _ {
+//            return false
+//        }
+//        return true
+//
+//    }
+//
+//    /// The model passed in is the one overriding this model.
+//    /// Return a merged version of the two models.
+//    /// If shouldBeOverrided is true, this model instance's properties will be the same as the other one, which is really unnecessary, you should make a copy of it instead.
+//    /// shouldBeOverrided is false, this model's nil properties will be set if the other model's.
+//    /// shouldBeOverrided is false by default.
+//    @discardableResult
+//    public func merge(model: Self, shouldBeOverrided: Bool = false) -> Self{
+//        guard self.primaryKey() == model.primaryKey() else {
+//            preconditionFailure("Both models must have the same primary key")
+//        }
+//        let thisAttributes = self.attributes()
+//        let thatDict = model.toDict()
+//
+//        var newAttributes = [AHDBAttribute]()
+//        for attr in thisAttributes {
+//            var attr_M = attr
+//            if attr_M.value == nil {
+//                attr_M.value = thatDict[attr.key]
+//            }
+//            newAttributes.append(attr_M)
+//        }
+//        let dict = Self.rowToDict(attributes: newAttributes)
+//        let model = Self(with: dict)
+//        return model
+//    }
+//}
 
 
 //MARK:- Query
@@ -224,6 +224,7 @@ extension AHDataModel {
     }
     
     /// Return those unsuccessfully updated ones.
+    /// NOTE: This method surpresses exceptions!!
     @discardableResult
     public static func update(models: [Self]) -> [Self] {
         var unsuccessful = [Self]()

@@ -36,34 +36,27 @@ class AHDataModel_ExampleTests: XCTestCase {
     }
     
     
-    func testMigration() {
-        let a = ["b", "c", "d"].sorted()
-        let b = ["d", "b", "c"].sorted()
-        XCTAssertEqual(a, b)
-    }
-    
-    
     func testTransaction() {
         do {
             try ChatModel.transaction {
+                let userInfoA = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702")
+                let userInfoB = UserModel(id: 55, name: "Chris", age: 35, address: "BeiJing", phone: "+86010......")
+                XCTAssertNoThrow(try UserModel.insert(model: userInfoA))
+                XCTAssertNoThrow(try UserModel.insert(model: userInfoB))
+                
                 let chat1 = ChatModel(text: "There's a place ... chat_1", userId: 12)
-                chat1.save()
                 let chat2 = ChatModel(text: "in your heart ... chat_2", userId: 55)
-                chat2.save()
                 let chat3 = ChatModel(text: "and I know that ... chat_3", userId: 12)
-                chat3.save()
                 
+                XCTAssert(ChatModel.insert(models: [chat1,chat2,chat3]).count == 0)
                 throw AHDBError.other(message: "transaction exception!!")
-                
-//                let chat4 = ChatModel(text: "it is ... chat_4", userId: 55)
-//                chat4.save()
-//                let chat5 = ChatModel(text: "love ... chat_5", userId: 12)
-//                chat5.save()
             }
         } catch _ {
             // test if rollback takes effect
-            let results = ChatModel.queryAll().run()
-            XCTAssertEqual(results.count, 0)
+            let chats = ChatModel.queryAll().run()
+            XCTAssertEqual(chats.count, 0)
+            let users = UserModel.queryAll().run()
+            XCTAssertEqual(users.count, 0)
             return
         }
         XCTAssert(false)
@@ -71,14 +64,13 @@ class AHDataModel_ExampleTests: XCTestCase {
     
     
     
-    /// If you model ignores id primary key then they don't have a system assigned IDs untill you query them back from the database.
+    /// If your model ignores id primary key then they don't have a system assigned IDs untill you query them back from the database.
     /// After you query them back and they all have their own IDs, then you can update them as usual.
     func testNotSetPrimaryKey_2() {
         let userInfoA = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702")
         let userInfoB = UserModel(id: 55, name: "Chris", age: 35, address: "BeiJing", phone: "+86010......")
-        
-        XCTAssertTrue(userInfoA.save())
-        XCTAssertTrue(userInfoB.save())
+        XCTAssertNoThrow(try UserModel.insert(model: userInfoA))
+        XCTAssertNoThrow(try UserModel.insert(model: userInfoB))
         
         
         let chat1 = ChatModel(text: "There's a place ... chat_1", userId: 12)
@@ -86,7 +78,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         let chat3 = ChatModel(text: "and I know that ... chat_3", userId: 12)
         let chat4 = ChatModel(text: "it is ... chat_4", userId: 55)
         let chat5 = ChatModel(text: "love ... chat_5", userId: 12)
-        XCTAssertNoThrow(try ChatModel.insert(models: [chat1,chat2,chat3,chat4,chat5]))
+        XCTAssert(ChatModel.insert(models: [chat1,chat2,chat3,chat4,chat5]).count == 0)
         
         // now those chat models have their own IDs assigned by Sqlite
         var chats = ChatModel.query("userId", "=", 12).run()
@@ -96,10 +88,10 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssertEqual(chats.count, 2)
         
         // now since chats contains models with IDs, we can update them as usual
-        chats.forEach { (chat) in
+        for chat in chats {
             var chat = chat
             chat.text = "aaa"
-            XCTAssertTrue(chat.save())
+            XCTAssertNoThrow(try ChatModel.update(model: chat))
         }
         
         chats = ChatModel.query("userId", "=", 55).OrderBy("userId", isASC: true).run()
@@ -111,7 +103,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         
         // foregin key tests
-        XCTAssertTrue(userInfoA.delete())
+        XCTAssertNoThrow(try UserModel.delete(model: userInfoA))
     
         chats = ChatModel.query("userId", "=", 12).run()
         XCTAssertEqual(chats.count, 0)
@@ -134,7 +126,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         let master6  = Master(id: 76, age: nil, score: 123, name: "fun_6")
         let master7  = Master(id: 87, age: 88, score: 234, name: "fun_7")
         
-        try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
+        XCTAssert(Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7]).count == 0)
         
         var masters = Master.queryAll().run()
         XCTAssertEqual(masters.count, 8)
@@ -163,7 +155,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         let master6  = Master(id: 7, age: nil, score: 123, name: "fun_6")
         let master7  = Master(id: 8, age: 88, score: 234, name: "fun_7")
         
-        try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
+        XCTAssert(Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7]).count == 0)
         
         let masters = Master.queryWhere(rawSQL: "id >= ? AND age <= ?", values: [5, 88])
         XCTAssertEqual(masters.count, 2)
@@ -180,7 +172,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         let master6  = Master(id: 7, age: nil, score: 123, name: "fun_6")
         let master7  = Master(id: 8, age: 88, score: 234, name: "fun_7")
         
-        try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
+        XCTAssert(Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7]).count == 0)
         
         var masters = Master.queryAll().run()
         XCTAssertEqual(masters.count, 8)
@@ -249,7 +241,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         let master6  = Master(id: 7, age: 77, score: 123, name: "fun_6")
         let master7  = Master(id: 8, age: 88, score: 234, name: "fun_7")
         
-        try! Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7])
+        XCTAssert(Master.insert(models: [master0,master1,master2,master3,master4,master5,master6,master7]).count == 0)
         
         var masters = Master.queryAll().run()
         XCTAssertEqual(masters.count, 8)
@@ -283,15 +275,13 @@ class AHDataModel_ExampleTests: XCTestCase {
     func testUpdate() {
         let master  = Master(id: 1, age: 12, score: 213.2, name: "master_1")
         let master1  = Master(id: 122, age: 12, score: 213.2, name: "master_1")
-        XCTAssertTrue(master.save())
-        XCTAssertTrue(master1.save())
+        XCTAssertNoThrow(try Master.insert(model: master))
+        XCTAssertNoThrow(try Master.insert(model: master1))
         
         let dog1 = Dog(masterId: master.id, name: "dog_1", age: 12)
-        XCTAssertTrue(dog1.save())
         var dog2 = Dog(masterId: master.id, name: "dog_2", age: 12)
-        XCTAssertTrue(dog2.save())
         let dog3 = Dog(masterId: master.id, name: "dog_3", age: 12)
-        XCTAssertTrue(dog3.save())
+       XCTAssert(Dog.insert(models: [dog1,dog2,dog3]).count == 0)
         
         dog2.masterId = 122
         dog2.age = 42
@@ -306,15 +296,13 @@ class AHDataModel_ExampleTests: XCTestCase {
     
     func testQuery() {
         let master  = Master(id: 1, age: 12, score: 213.2, name: "master_1")
-        XCTAssertTrue(master.save())
+        XCTAssertNoThrow(try Master.insert(model: master))
         
         let dog1 = Dog(masterId: master.id, name: "dog_1", age: 12)
-        XCTAssertTrue(dog1.save())
         let dog2 = Dog(masterId: master.id, name: "dog_2", age: 13)
-        XCTAssertTrue(dog2.save())
         let dog3 = Dog(masterId: master.id, name: "dog_3", age: 14)
-        XCTAssertTrue(dog3.save())
         
+        XCTAssert(Dog.insert(models: [dog1,dog2,dog3]).count == 0)
         
         var results = Dog.query("name", "LIKE", "dog%").run()
         XCTAssertTrue(results.contains(dog1))
@@ -327,46 +315,73 @@ class AHDataModel_ExampleTests: XCTestCase {
     }
     
     
-    func testMerge() {
-        let userInfoA = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702")
-        let userInfoB = UserModel(id: 12, score: 33.2, isVIP: true, balance: 99999.99, position: nil)
-        var expectUserInfoAB = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702", score: 33.2, isVIP: true, balance: 99999.99, position: nil, chatMsgCount: nil)
-
-        let resultInfoAB = userInfoA.merge(model: userInfoB)
-        XCTAssertTrue(resultInfoAB.save())
-        XCTAssertEqual(resultInfoAB,expectUserInfoAB)
-        
-        let userInfoAB1 = UserModel.query(byPrimaryKey: 12)
-        XCTAssertNotNil(userInfoAB1)
-        XCTAssertEqual(userInfoAB1!, expectUserInfoAB)
-        
-        expectUserInfoAB.name = nil
-        expectUserInfoAB.balance = nil
-        XCTAssertTrue(expectUserInfoAB.save())
-        let expectUserInfoAB1 = UserModel.query(byPrimaryKey: 12)
-        XCTAssertNil(expectUserInfoAB1?.name)
-        XCTAssertNil(expectUserInfoAB1?.balance)
-        
-    }
+//    func testMerge() {
+//        let userInfoA = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702")
+//        let userInfoB = UserModel(id: 12, score: 33.2, isVIP: true, balance: 99999.99, position: nil)
+//        var expectUserInfoAB = UserModel(id: 12, name: "Andy", age: 25, address: "Las Vegas", phone: "702702702", score: 33.2, isVIP: true, balance: 99999.99, position: nil, chatMsgCount: nil)
+//
+//        let resultInfoAB = userInfoA.merge(model: userInfoB)
+//        XCTAssertTrue(resultInfoAB.save())
+//        XCTAssertEqual(resultInfoAB,expectUserInfoAB)
+//
+//        let userInfoAB1 = UserModel.query(byPrimaryKey: 12)
+//        XCTAssertNotNil(userInfoAB1)
+//        XCTAssertEqual(userInfoAB1!, expectUserInfoAB)
+//
+//        expectUserInfoAB.name = nil
+//        expectUserInfoAB.balance = nil
+//        XCTAssertTrue(expectUserInfoAB.save())
+//        let expectUserInfoAB1 = UserModel.query(byPrimaryKey: 12)
+//        XCTAssertNil(expectUserInfoAB1?.name)
+//        XCTAssertNil(expectUserInfoAB1?.balance)
+//
+//    }
+    
+//    func testNull() {
+//        let master  = Master(id: 1, age: 12, score: 213.2, name: "master_1")
+//        XCTAssertTrue(master.save())
+//
+//        let dog1 = Dog(masterId: master.id, name: "dog_1", age: 12)
+//        XCTAssertTrue(dog1.save())
+//        let dog2 = Dog(masterId: master.id, name: "dog_2", age: 12)
+//        XCTAssertTrue(dog2.save())
+//        var dog3 = Dog(masterId: master.id, name: "dog_3", age: 12)
+//        XCTAssertTrue(dog3.save())
+//
+//
+//        var dogs = Dog.query("masterId", "=", master.id).run()
+//        XCTAssertEqual(dogs.count, 3)
+//
+//
+//        dog3.masterId = nil
+//        XCTAssertTrue(dog3.save())
+//        dogs = Dog.query("name", "=", "dog_3").run()
+//        XCTAssertEqual(dogs.count, 1)
+//        let dog33 = dogs.first!
+//        XCTAssertEqual(dog3, dog33)
+//        XCTAssertNil(dog33.masterId)
+//
+//        // would crush, since name is dog's primary key, ok
+//        //        dog2.name = nil
+//        //        dog2.save()
+//    }
     
     func testNull() {
         let master  = Master(id: 1, age: 12, score: 213.2, name: "master_1")
-        XCTAssertTrue(master.save())
+        XCTAssertNoThrow(try Master.insert(model: master))
         
         let dog1 = Dog(masterId: master.id, name: "dog_1", age: 12)
-        XCTAssertTrue(dog1.save())
         let dog2 = Dog(masterId: master.id, name: "dog_2", age: 12)
-        XCTAssertTrue(dog2.save())
         var dog3 = Dog(masterId: master.id, name: "dog_3", age: 12)
-        XCTAssertTrue(dog3.save())
         
+        XCTAssert(Dog.insert(models: [dog1,dog2,dog3]).count == 0)
         
         var dogs = Dog.query("masterId", "=", master.id).run()
         XCTAssertEqual(dogs.count, 3)
         
         
         dog3.masterId = nil
-        XCTAssertTrue(dog3.save())
+        XCTAssertNoThrow(try Dog.update(model: dog3))
         dogs = Dog.query("name", "=", "dog_3").run()
         XCTAssertEqual(dogs.count, 1)
         let dog33 = dogs.first!
@@ -381,13 +396,13 @@ class AHDataModel_ExampleTests: XCTestCase {
     
     func testBasics() {
         var master  = Master(id: 1, age: 12, score: 213.2, name: "master_1")
-        try! Master.insert(model: master)
+        XCTAssertNoThrow(try Master.insert(model: master))
         
         var dog1 = Dog(masterId: master.id, name: "dog_1", age: 12)
         var dog2 = Dog(masterId: master.id, name: "dog_2", age: 12)
         var dog3 = Dog(masterId: master.id, name: "dog_3", age: 12)
         
-        try! Dog.insert(models: [dog1,dog2,dog3])
+        XCTAssert(Dog.insert(models: [dog1,dog2,dog3]).count == 0)
         
         
         
@@ -396,17 +411,17 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         master.name = "master_2"
         master.age = 33
-        try! Master.update(model: master)
+        XCTAssertNoThrow(try Master.update(model: master))
         
         dog3.age = 33
-        try! Dog.update(model: dog3)
+        XCTAssertNoThrow(try Dog.update(model: dog3))
         let dog33 = Dog.query(byPrimaryKey: "dog_3")
         XCTAssertNotNil(dog33)
         XCTAssert(dog3 == dog33)
         
         dog2.age = 21
         dog1.age = 11
-        try! Dog.update(models: [dog2, dog1])
+        XCTAssert(Dog.update(models: [dog2, dog1]).count == 0)
         let dog22 = Dog.query(byPrimaryKey: "dog_2")
         XCTAssertNotNil(dog22)
         XCTAssert(dog2 == dog22)
@@ -416,26 +431,22 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssert(dog1 == dog11)
         
         
-        var shouldFail = false
         dog11?.masterId = 999
-        do {
-            try Dog.update(models: [dog11!])
-        } catch _ {
-            shouldFail = true
-        }
-        XCTAssertTrue(shouldFail)
+        
+        XCTAssertThrowsError(try Dog.update(model: dog11!))
+
         let master_ = Master.query(byPrimaryKey: 1)
         XCTAssertNotNil(master_)
         
         XCTAssertTrue(master == master_)
         
         XCTAssertTrue(Master.modelExists(model: master_!))
-        XCTAssertTrue(Master.modelExists(primaryKey: master_!.id))
+        XCTAssertTrue(Master.modelExists(primaryKey: master_!.id!))
         
         
         
-        try! Dog.delete(model: dog2)
-        try! Dog.delete(model: dog3)
+        XCTAssertNoThrow(try Dog.delete(model: dog2))
+        XCTAssertNoThrow(try Dog.delete(model: dog3))
         
         XCTAssertFalse(Dog.modelExists(model: dog2))
         XCTAssertFalse(Dog.modelExists(model: dog3))
@@ -449,7 +460,7 @@ class AHDataModel_ExampleTests: XCTestCase {
         XCTAssert(dog1 == dog11)
         
         
-        try! Dog.delete(model: dog1)
+        XCTAssertNoThrow(try Dog.delete(model: dog1))
         
         dogs = Dog.query("masterId", "=", master.id).run()
         XCTAssertEqual(dogs.count, 0)
@@ -457,11 +468,10 @@ class AHDataModel_ExampleTests: XCTestCase {
         var masters = Master.query("id", "=", master.id).run()
         XCTAssertEqual(masters.count, 1)
         
-        try! Master.delete(model: master)
+        XCTAssertNoThrow(try Master.delete(model: master))
         
         masters = Master.query("id", "=", master.id).run()
         XCTAssertEqual(masters.count, 0)
-        
     }
     
 }

@@ -16,16 +16,10 @@ class AHDataModel_Other_Tests: XCTestCase {
         super.setUp()
         
         UserModel.shouldCheckWriteQueue = false
-        try! UserModel.deleteAll()
-        
-        Master.shouldCheckWriteQueue = false
-        try! Master.deleteAll()
-        
-        Dog.shouldCheckWriteQueue = false
-        try! Dog.deleteAll()
+//        try! UserModel.deleteAll()
         
         ChatModel.shouldCheckWriteQueue = false
-        try! ChatModel.deleteAll()
+//        try! ChatModel.deleteAll()
         
     }
     
@@ -39,11 +33,11 @@ class AHDataModel_Other_Tests: XCTestCase {
     
     /// Go to UserModel and comment/uncomment corresponding codes !!!!
     func testMigration_A() {
-        try! UserModel.deleteAll()
-        try! ChatModel.deleteAll()
+        XCTAssertNoThrow(try UserModel.deleteAll())
+        XCTAssertNoThrow(try ChatModel.deleteAll())
         let u1 = UserModel(id: 12, name: "user1", age: 25, address: "Las Vegas", phone: "702702702")
         let u2 = UserModel(id: 13, name: "user2", age: 26, address: "Las Vegas", phone: "702702702")
-        XCTAssert(u1.save() && u2.save())
+        XCTAssert(UserModel.insert(models: [u1,u2]).count == 0)
         
         
         let chat1 = ChatModel(text: "chat1", userId: 12)
@@ -55,7 +49,7 @@ class AHDataModel_Other_Tests: XCTestCase {
         let chat7 = ChatModel(text: "chat7", userId: 13)
         let chat8 = ChatModel(text: "chat8", userId: 13)
         
-        XCTAssertNoThrow(try ChatModel.insert(models: [chat1,chat2,chat3,chat4,chat5,chat6,chat7,chat8]))
+        XCTAssert(ChatModel.insert(models: [chat1,chat2,chat3,chat4,chat5,chat6,chat7,chat8]).count == 0)
         
         var chats = ChatModel.queryAll().run()
         XCTAssertEqual(chats.count, 8)
