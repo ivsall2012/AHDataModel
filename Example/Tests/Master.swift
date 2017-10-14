@@ -37,7 +37,7 @@ struct Master: Equatable {
 
 
 extension Master: AHDataModel{
-    init(with dict: [String : Any?]) {
+    init(with dict: [String : Any]) {
         self.id = dict["id"] as? Int
         self.age = dict["age"] as? Int
         self.score = dict["score"] as? Double

@@ -51,7 +51,8 @@ class AHDataModel_ExampleTests: XCTestCase {
                 XCTAssert(ChatModel.insert(models: [chat1,chat2,chat3]).count == 0)
                 throw AHDBError.other(message: "transaction exception!!")
             }
-        } catch _ {
+        } catch let error {
+            print(error)
             // test if rollback takes effect
             let chats = ChatModel.queryAll().run()
             XCTAssertEqual(chats.count, 0)
@@ -274,7 +275,7 @@ class AHDataModel_ExampleTests: XCTestCase {
     
     func testUpdate() {
         let master  = Master(id: 1, age: 12, score: 213.2, name: "master_1")
-        let master1  = Master(id: 122, age: 12, score: 213.2, name: "master_1")
+        let master1  = Master(id: 122, age: 12, score: 213.2, name: "master_2")
         XCTAssertNoThrow(try Master.insert(model: master))
         XCTAssertNoThrow(try Master.insert(model: master1))
         
@@ -285,7 +286,9 @@ class AHDataModel_ExampleTests: XCTestCase {
         
         dog2.masterId = 122
         dog2.age = 42
-        try! Dog.update(model: dog2, forProperties: ["masterId", "age"])
+        
+        XCTAssertNoThrow(try Dog.update(model: dog2, forProperties: ["masterId", "age"]))
+//        XCTAssertNoThrow(try Dog.update(byPrimaryKey: dog2.name, forProperties: ["masterId": dog2.masterId!, "age": dog2.age]))
         
         let dog22 = Dog.query(byPrimaryKey: dog2.name)
         XCTAssertNotNil(dog22)

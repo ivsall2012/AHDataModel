@@ -24,7 +24,7 @@ extension ChatModel: AHDataModel {
         self.userId = userId
     }
     
-    init(with dict: [String : Any?]) {
+    init(with dict: [String : Any]) {
         self.id = dict["id"] as? Int
         self.text = dict["text"] as! String
         self.userId = dict["userId"] as! Int

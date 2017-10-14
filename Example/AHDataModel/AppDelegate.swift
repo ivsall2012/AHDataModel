@@ -17,15 +17,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-//        try! UserModel.migrate(ToVersion: 1) { (migrator, property) in
-//            
-//            if property == "chatMsgCount" {
-//                let sql = "UPDATE \(migrator.newTableName) SET \(property) = (SELECT count(*) FROM ChatModel WHERE \(ChatModel.tableName()).userId = \(migrator.newTableName).\(migrator.primaryKey))"
+        
+//        try! Dog.migrate(toVersion: 1, migrationBlock: { (migrator, currentProperty) in
+//
+//        })
+        
+        
+        
+        
+//        try! UserModel.migrate(toVersion: 1) { (migrator, newProperty) in
+//
+//            if newProperty == "chatMsgCount" {
+//                let sql = "UPDATE \(migrator.tempTableName) SET \(newProperty) = (SELECT count(*) FROM ChatModel WHERE \(ChatModel.tableName()).userId = \(migrator.tempTableName).\(migrator.primaryKey))"
 //                migrator.runRawSQL(sql: sql)
 //            }
-//            
+//
+//        }
+
+//        try! MigrationModel.migrate(toVersion: 1) { (migrator, newProperty) in
+//            if newProperty == "fullName" {
+//                migrator.combineProperties(propertyA: "lastName", separator: ", ", propertyB: "firstName")
+//            }
+//
 //        }
         
+//        try! UserModel.migrate(ToVersion: 1, migrationBlock: { (migrator, newProperty) in
+//
+//            if currentProperty == "gender" {
+//                migrator.renameProperty(from: "sex")
+//            }
+//
+        
+//        })
         
         return true
     }

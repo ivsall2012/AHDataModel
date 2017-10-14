@@ -67,10 +67,10 @@ class AHDataModel_Other_Tests: XCTestCase {
     
     /// Go to UserModel and comment/uncomment corresponding codes !!!!
     func testMigrating_B() {
-        try! UserModel.migrate(ToVersion: 1) { (migrator, property) in
+        try! UserModel.migrate(toVersion: 1) { (migrator, property) in
             
             if property == "chatMsgCount" {
-                let sql = "UPDATE \(migrator.newTableName) SET \(property) = (SELECT count(*) FROM ChatModel WHERE \(ChatModel.tableName()).userId = \(migrator.newTableName).\(migrator.primaryKey))"
+                let sql = "UPDATE \(migrator.tempTableName) SET \(property) = (SELECT count(*) FROM ChatModel WHERE \(ChatModel.tableName()).userId = \(migrator.tempTableName).\(migrator.primaryKey))"
                 migrator.runRawSQL(sql: sql)
             }
             

@@ -27,10 +27,12 @@ struct MigrationModel {
 
 
 extension MigrationModel: AHDataModel{
-    init(with dict: [String : Any?]) {
+    init(with dict: [String : Any]) {
         self.id = dict["id"] as? Int
 //        self.firstName = dict["firstName"] as? String
 //        self.lastName = dict["lastName"] as? String
+        
+        // after migration property
         self.fullName = dict["fullName"] as? String
     }
     

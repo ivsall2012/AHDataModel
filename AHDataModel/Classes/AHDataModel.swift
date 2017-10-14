@@ -11,16 +11,12 @@
 /// Note: You should always specify primary key in columnInfo() since currently the protocol only supports models with primary keys.
 public protocol AHDataModel: AHDB {
     static func columnInfo() -> [AHDBColumnInfo]
-//    static func renameProperties() -> [String: String]
     
-    init(with dict: [String: Any?])
+    init(with dict: [String: Any])
     
     static func tableName() -> String
-    
 
-    
-    
-    /// return [propertyStr: value], propertyStr is the property/column names used in both the object(or struct) and the database. 
+    /// return [propertyStr: value], propertyStr is the property/column names used in both the object(or struct) and the database.
     /// So the Swift property names and dtabase column names should be the same.
     func toDict() -> [String: Any]
     
@@ -191,6 +187,7 @@ extension AHDataModel {
     }
     
     /// Return those unsuccessfully inserted ones.
+    /// NOTE: This method surpresses exceptions!!
     @discardableResult
     public static func insert(models: [Self]) -> [Self] {
         var unsuccessful = [Self]()
@@ -325,10 +322,17 @@ extension AHDataModel {
         }
     }
     
-    public static func delete(models: [Self]) throws {
+    /// Return unsuccessfully deleted ones.
+    public static func delete(models: [Self]) -> [Self] {
+        var arr = [Self]()
         for model in models {
-            try delete(model: model)
+            do {
+                try delete(model: model)
+            }catch _ {
+                arr.append(model)
+            }
         }
+        return arr
     }
     
     public static func delete(byPrimaryKey primaryKey: Any) throws {
@@ -346,10 +350,17 @@ extension AHDataModel {
         try db.delete(tableName: tableName, primaryKey: keyAttr)
     }
     
-    public static func delete(byPrimaryKeys primaryKeys: [Any]) throws {
+    /// Returns unsuccessfully deleted primary keys
+    public static func delete(byPrimaryKeys primaryKeys: [Any]) -> [Any] {
+        var failedPKs = [Any]()
         for pk in primaryKeys {
-            try delete(byPrimaryKey: pk)
+            do {
+                try delete(byPrimaryKey: pk)
+            }catch _ {
+                failedPKs.append(pk)
+            }
         }
+        return failedPKs
     }
     
     
