@@ -442,6 +442,39 @@ try! User.migrate(toVersion: 1) { (migrator, newProperty) in
 }
 ```
 
+##### Linear Migration
+Here we use raw SQL instead of extend the migrator which is described in the next section
+```Swift
+/// All SQLs here should only be about how to aggreate toward the newProperty throughout the linear migration!!!
+try! User.migrate(toVersion: 3) { (migrator, newProperty) in
+    var sql: String = ""
+    if self.lastVersion() == nil {
+        /// if the lastVersion is nil, it means lastVersion is the initial version 0.
+        /// It also means current user is in initial version!
+        /// For example, you deleted 'firstName' and 'lastName' and added 'fullName' by combining the previous two.
+        let sql_v1 = "...."
+        sql += sql_v1
+    }
+    guard let lastVersion = lastVersion() {
+        fatalError("??????")
+    }
+    if lastVersion == 1 {
+        /// from v1 -> v2
+        let sql_v2 = "...."
+        sql += sql_v2
+    }
+
+    if lastVersion == 2 {
+        /// from v2 -> v3
+        let sql_v3 = "...."
+        sql += sql_v3
+    }
+
+    migrator.runRawSQL(sql: sql)
+            
+}
+```
+
 ##### Extend Migrator for Advanced Usages
 As shown aboved, most of the migrating works are done by using the migrator's built-in methods.
 So what if you want to do custom works during migration? Extend Migrator.  
@@ -478,38 +511,6 @@ try! User.migrate(toVersion: 1) { (migrator, newProperty) in
             
 }
 ```
-##### Linear Migration
-```Swift
-/// All SQLs here should only be about how to aggreate toward the newProperty throughout the linear migration!!!
-try! User.migrate(toVersion: 3) { (migrator, newProperty) in
-    var sql: String = ""
-    if self.lastVersion() == nil {
-        /// if the lastVersion is nil, it means lastVersion is the initial version 0.
-        /// It also means current user is in initial version!
-        /// For example, you deleted 'firstName' and 'lastName' and added 'fullName' by combining the previous two.
-        let sql_v1 = "...."
-        sql += sql_v1
-    }
-    guard let lastVersion = lastVersion() {
-        fatalError("??????")
-    }
-    if lastVersion == 1 {
-        /// from v1 -> v2
-        let sql_v2 = "...."
-        sql += sql_v2
-    }
-
-    if lastVersion == 2 {
-        /// from v2 -> v3
-        let sql_v3 = "...."
-        sql += sql_v3
-    }
-
-    migrator.runRawSQL(sql: sql)
-            
-}
-```
-
 
 ## Example
 
