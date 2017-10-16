@@ -15,6 +15,7 @@ It abstacts enough details away from tedious SQL related works, yet remains flex
   - [Adding and/or Deleting a Property](#adding-andor-deleting-a-property)
   - [Renaming a Property](#renaming-a-property)
   - [Combining Two Sting Properties](#combining-two-sting-properties)
+  - [Linear Migration](#linear-migration)
   - [Extend Migrator for Advanced Usages](#extend-migrator-for-advanced-usages)
 
 
