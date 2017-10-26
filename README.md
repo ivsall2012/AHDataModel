@@ -20,17 +20,17 @@ It abstract enough details away from tedious SQL related works, yet remains flex
 
 
 ### Modeling
-(This might be a bit complex. Be patient, good stuff will get to you soon!)
+(This might be a bit complex. Be patient, good stuff will come to you soon!)
 AHDataModel has minimum of 5 methods needed to be implemented for your models:
 ```Swift
 #### Three Core Methods
-/// In method, you need to privide necessary column(or property) infomations.
+/// In this method, you need to provide necessary column(or property) informations.
 static func columnInfo() -> [AHDBColumnInfo]
 
 /// Core method, it's for AHDataModel to create models when data being queried from a SQLite database.
 init(with dict: [String: Any])
 
-/// Core method, it's for saving model's datas into database.
+/// Core method, it's for saving model's data into database.
 /// You can intentionally ignore some properties in here by not assigning a key-value pair to the returning dict.
 func toDict() -> [String: Any]
 ###
@@ -48,7 +48,7 @@ Make sure you correctly handle:
 init(with dict: [String: Any?])
 func toDict() -> [String: Any] 
 ```
-and also the informations produced by those two methods match the infomations you provide in  
+and also the informations produced by those two methods match the informations you provide in  
 ```Swift
 static func columnInfo() -> [AHDBColumnInfo]
 ```
@@ -66,10 +66,10 @@ struct User: Equatable {
     var age: Int
     var isVIP: Bool
     /// Optional properties can be nil then being inserted or updated into database with NULL value.
-    /// Don't specify it as 'NOT NULL' in columnInfo's contraint.
+    /// Don't specify it as 'NOT NULL' in columnInfo's constraint.
     var balance: Double?
     
-    /// If we want this property to have nothing to do with the database, we simplely just ignore it in the protocol methods.
+    /// If we want this property to have nothing to do with the database, we simply just ignore it in the protocol methods.
     var position: String = "PM"
     
     /// Like normal struct, you use an initializer to create it, you can insert it into the database later.
@@ -149,7 +149,7 @@ extension User: AHDataModel {
 ```
 Let's use the User model right now.
 ```Swift
-/// Every model has a write closure for globel transaction. All write operations have to be executed in a write closure.
+/// Every model has a write closure for global transaction. All write operations have to be executed in a write closure.
 /// NOTE: currently there's no difference for which model's write closure to use. They all share the same queue. If you want, you can use some other model's write closure, but not recommended.   
 /// More info described in the 'Write' section later.  
 /// That's why the operations in the write block is like a exclusive transaction in database level, not table level.  
@@ -174,7 +174,7 @@ User.write {
 ```
 
 
-#### Now let create a chat message model which has only 3 main properties: text, userId, addedAt. But since every model must have a primary key. We'll have to give it a 'id' property, but we just put it there.
+#### Now let's create a chat message model which has only 3 main properties: text, userId, addedAt. But since every model must have a primary key. We'll have to give it a 'id' property, but we just put it there.
 ```Swift
 /// Remember to implement Equatable for a struct, always!
 struct Chat: Equatable {
@@ -195,7 +195,7 @@ struct Chat: Equatable {
     }
 }
 
-/// AHDataModel implementaion
+/// AHDataModel implementation
 extension Chat: AHDataModel {
     init(with dict: [String : Any]) {
         /// Though we will not be using the id property, but we still have to put it there!!
@@ -288,7 +288,7 @@ Two insert methods:
 public static func insert(model: Self) throws
 
 /// Batch insertion, return those unsuccessfully inserted ones.
-/// NOTE: This method surpresses exceptions!!
+/// NOTE: This method suppresses exceptions!!
 public static func insert(models: [Self]) -> [Self]
 ```
 Example:
@@ -343,7 +343,7 @@ The short shortcoming of this method is that, it can't update a property to nil 
 
 ```Swift
 Dog.write {
-    /// assumeing the name of the dog is the primary key
+    /// assuming the name of the dog is the primary key
     var dog42 = Dog.query(byPrimaryKey: 42)!
     dog42.age = 99
     dog42.masterId = 122
@@ -424,7 +424,7 @@ In this case, mostly adding a property, you want to do something with the legacy
 try! User.migrate(ToVersion: 1, migrationBlock: { (migrator, newProperty) in  
     /// Check the newProperty is actually the one you want to do something about it
     if newProperty == "gender" {
-        /// Using migrator's built-in method to do the work
+        /// use migrator's built-in method to do the work
         migrator.renameProperty(from: "sex")
     }
             
@@ -477,13 +477,13 @@ try! User.migrate(toVersion: 3) { (migrator, newProperty) in
 ```
 
 ##### Extend Migrator for Advanced Usages
-As shown aboved, most of the migrating works are done by using the migrator's built-in methods.
+As shown above, most of the migrating works are done by using the migrator's built-in methods.
 So what if you want to do custom works during migration? Extend Migrator.  
 The Migrator has 4 properties:
 ```Swift
 public let oldTableName: String
 public let tempTableName: String
-/// This is the newProperty name, the same property name as the one passed in the migration closure paramter shown previously.
+/// This is the newProperty name, the same property name as the one passed in the migration closure parameter shown previously.
 public let property: String
 public let primaryKey: String
 ```
