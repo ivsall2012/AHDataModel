@@ -1,6 +1,6 @@
 # AHDataModel
 If you like SQLite then this wrapper is for you!   
-It abstacts enough details away from tedious SQL related works, yet remains flexible and open to customization.
+It abstract enough details away from tedious SQL related works, yet remains flexible and open to customization.
 
 ## Content
 - [Modeling](#modeling)
